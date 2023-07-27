@@ -8,28 +8,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.EnumType.*;
 
 @Entity
 @Getter
-public class User {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     private Long id;
 
-    // 아이디
-    private String username;
+    // 이메일
+    @Column(unique = true)
+    private String email;
 
     // 비밀번호
     private String password;
 
     // 닉네임
-    private String nickname;
+    @Column(name = "member_name", unique = true)
+    private String memberName;
+
+    // 소속 대학
+    @Enumerated(STRING)
+    private Department department;
 
     // 학과
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private Major major;
 
     // 학번
@@ -37,29 +43,25 @@ public class User {
     private String collegeId;
 
     // 작성한 질문글 모음
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member", cascade = ALL)
     private List<Question> questions = new ArrayList<>();
 
     // 작성한 답변 모음
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member", cascade = ALL)
     private List<Answer> answers = new ArrayList<>();
 
     // 포인트
-    @OneToOne(fetch = LAZY, cascade = ALL)
-    @JoinColumn(name = "point_id")
-    private Point point;
+    private int point;
 
-    protected User() {
+    protected Member() {
 
     }
 
     @Builder
-    public User(String username, String password, String nickname, Major major, String collegeId) {
-        this.username = username;
+    public Member(String email, String password, String memberName) {
+        this.email = email;
         this.password = password;
-        this.nickname = nickname;
-        this.major = major;
-        this.collegeId = collegeId;
-        this.point = new Point();
+        this.memberName = memberName;
+        this.point = 0;
     }
 }
