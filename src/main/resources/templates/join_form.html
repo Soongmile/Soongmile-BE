@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container">
-  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
   <form role="form" action="/user/join" th:object="${memberCreateForm}"
         method="post">
     <div class="form-group">

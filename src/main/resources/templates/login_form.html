@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="container">
+    <form action="/user/login" method="post">
+        <div>
+            <label th:for="email">이메일</label>
+            <input type="email" name="email" placeholder="이메일을 입력하세요">
+        </div>
+        <div>
+            <label th:for="password">비밀번호</label>
+            <input type="password" name="password" placeholder="비밀번호를 입력하세요">
+        </div>
+        <button type="submit" class="btn btn-primary">로그인</button>
+    </form>
+</div>
+</html>
