@@ -18,6 +18,7 @@ public class MemberService {
     @Transactional
     public Member create(String email, String password, String memberName) {
         Member member = new Member(email, passwordEncoder.encode(password), memberName);
+        System.out.println(member.getId());
         memberRepository.save(member);
         return member;
     }

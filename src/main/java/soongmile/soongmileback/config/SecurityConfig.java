@@ -31,12 +31,10 @@ public class SecurityConfig {
                         .loginPage("/user/login")           // 로그인 페이지의 URL
                         .defaultSuccessUrl("/")         // 로그인 성공시에 이동하는 디폴트 페이지는 루트 URL
                         .usernameParameter("email"))
-                .logout()
-                        .logoutUrl("/user/logout") // 로그아웃 URL 설정
-                        .logoutSuccessUrl("/user/login") // 로그아웃 성공 후 이동할 URL 설정
-                        .invalidateHttpSession(true) // 세션 무효화
-                        .deleteCookies("JSESSIONID"); // 로그아웃 시 세션 쿠키 삭제
-
+                .logout((logout) -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true));
         return http.build();
     }
 
