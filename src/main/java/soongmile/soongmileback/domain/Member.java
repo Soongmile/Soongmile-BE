@@ -20,14 +20,15 @@ public class Member {
     private Long id;
 
     // 이메일
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     // 비밀번호
+    @Column(nullable = false)
     private String password;
 
     // 닉네임
-    @Column(name = "member_name", unique = true)
+    @Column(name = "member_name", unique = true, nullable = false)
     private String memberName;
 
     // 소속 대학
@@ -62,6 +63,9 @@ public class Member {
         this.email = email;
         this.password = password;
         this.memberName = memberName;
+        this.department = null;
+        this.major = null;
+        this.collegeId = null;
         this.point = 0;
     }
 }

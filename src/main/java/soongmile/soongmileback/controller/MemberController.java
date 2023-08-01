@@ -43,17 +43,6 @@ public class MemberController {
             return "join_form";
         }
 
-        /*try {
-            memberService.create(memberCreateForm.getEmail(), memberCreateForm.getPassword(), memberCreateForm.getMembername());
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "join_form";
-        } catch(Exception e) {
-            e.printStackTrace();
-            bindingResult.reject("signupFailed", e.getMessage());
-            return "join_form";
-        }*/
         memberService.create(memberCreateForm.getEmail(), memberCreateForm.getPassword(), memberCreateForm.getMembername());
         System.out.println("회원가입 성공!!!");
         return "redirect:/";
@@ -62,7 +51,6 @@ public class MemberController {
     // 실제 로그인을 진행하는 @PostMapping 방식의 메서드는 스프링 시큐리티가 대신 처리하므로 직접 구현할 필요가 없다.
     @GetMapping("/login")
     public String login() {
-        System.out.println("여기까지는 들어옴 ㅋ");
         return "login_form";
     }
 }

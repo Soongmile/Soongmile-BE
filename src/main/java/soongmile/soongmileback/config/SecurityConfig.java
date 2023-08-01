@@ -29,7 +29,11 @@ public class SecurityConfig {
                 .formLogin((formLogin) -> formLogin         // .formLogin -> 스프링 시큐리티의 로그인 설정을 담당하는 부분
                         .loginPage("/user/login")           // 로그인 페이지의 URL
                         .defaultSuccessUrl("/")         // 로그인 성공시에 이동하는 디폴트 페이지는 루트 URL
-                        .usernameParameter("email"));
+                        .usernameParameter("email"))
+                .logout((logout) -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true));
         return http.build();
     }
 

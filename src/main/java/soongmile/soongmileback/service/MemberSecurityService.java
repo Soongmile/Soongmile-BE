@@ -24,6 +24,7 @@ public class MemberSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = this.memberRepository.findByEmail(email);
+
         if (!member.getEmail().equals(email)) {
             System.out.println("로그인 실패???");
             throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
