@@ -2,6 +2,7 @@ package soongmile.soongmileback.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import static javax.persistence.EnumType.*;
 
 @Entity
 @Getter
+@Setter
 public class Member {
 
     @Id
