@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>질문글 작성</title>
+</head>
+<body>
+<div class="container">
+    <h2>질문글 작성</h2>
+    <form role="form" action="/user/question/write" th:object="${questionCreateRequest}"
+          method="post">
+        <div class="form-group">
+            <label th:for="title">제목</label>
+            <input type="text" th:field="*{title}" class="form-control"
+                   placeholder="제목을 입력하세요">
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
+        <div class="form-group">
+            <label th:for="content">본문</label>
+            <textarea th:field="*{content}" class="form-control"
+                      placeholder="본문을 입력하세요"></textarea>
+            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+        </div>
+        <div class="form-group">
+            <label>분야</label>
+            <div>
+                <label><input type="radio" th:field="*{field}" value="pm">기획/PM</label>
+                <label><input type="radio" th:field="*{field}" value="design">디자인</label>
+                <label><input type="radio" th:field="*{field}" value="mobile">모바일</label>
+                <label><input type="radio" th:field="*{field}" value="backend">백엔드</label>
+                <label><input type="radio" th:field="*{field}" value="frontend">프론트엔드</label>
+                <label><input type="radio" th:field="*{field}" value="school">학교 생활</label>
+                <!-- 추가적인 분야 옵션들을 여기에 추가할 수 있습니다. -->
+            </div>
+            <p th:if="${#fields.hasErrors('field')}" th:errors="*{field}"></p>
+        </div>
+        <div class="form-group">
+            <label th:for="tag">태그</label>
+            <input type="text" th:field="*{tag}" class="form-control"
+                   placeholder="태그를 입력하세요 (선택)">
+        </div>
+        <button type="submit" class="btn btn-primary">업로드</button>
+    </form>
+</div>
+</body>
+</html>
