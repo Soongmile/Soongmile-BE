@@ -24,7 +24,7 @@ import java.security.Principal;
 @RequestMapping("/user/question")
 @RequiredArgsConstructor
 public class AnswerController {
-
+/*
     private final AnswerService answerService;
 
     @GetMapping("/test/answer") //기본 주소 요청
@@ -53,5 +53,5 @@ public class AnswerController {
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable Long id) {
         return ResponseEntity.ok(answerService.findById(id));
-    }
+    }*/
 }
