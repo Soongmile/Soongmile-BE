@@ -23,6 +23,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+src/main/resources/application.properties
 application.properties
 .idea
 *.iws
