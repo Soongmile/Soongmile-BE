@@ -24,7 +24,7 @@ bin/
 
 ### IntelliJ IDEA ###
 src/main/resources/application.properties
-application.properties
+application-security.properties
 .idea
 *.iws
 *.iml
