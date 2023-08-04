@@ -21,7 +21,7 @@ import static javax.persistence.EnumType.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
+public class Member implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,9 +63,9 @@ public class Member {
     // 포인트
     private int point;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
-    private List<Authority> roles = new ArrayList<>();
+    private List<String> roles = new ArrayList<>();
 
     @Builder
     public Member(String email, String password, String memberName) {
@@ -76,5 +76,38 @@ public class Member {
         this.major = null;
         this.collegeId = null;
         this.point = 0;
+        this.roles = Collections.singletonList("ROLE_USER");
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
