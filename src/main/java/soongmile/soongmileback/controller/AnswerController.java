@@ -8,20 +8,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import soongmile.soongmileback.domain.request.AnswerCreateRequest;
-import soongmile.soongmileback.domain.request.QuestionCreateRequest;
-import soongmile.soongmileback.repository.QuestionRepository;
 import soongmile.soongmileback.service.AnswerService;
-import soongmile.soongmileback.service.QuestionService;
+
 
 import javax.validation.Valid;
 import java.security.Principal;
 
-@Tag(name = "questions", description = "Question API")
+@Tag(name = "answers", description = "Answer API")
 @Controller
-@RequestMapping("/user/question")
+@RequestMapping("/user/answer")
 @RequiredArgsConstructor
 public class AnswerController {
 
@@ -35,7 +32,7 @@ public class AnswerController {
             //로그인하지 않은 사용자는 로그인 페이지로
             return "/user/login";
         }
-        System.out.println("auth는 null이 아닌가봐.");
+        System.out.println("auth는 null이ㅌ 아닌가봐.");
         model.addAttribute("answerNew", new AnswerCreateRequest());
         return "questionWrite";     //호출 후 이걸 찾아감
     }
@@ -44,7 +41,6 @@ public class AnswerController {
     @Operation(summary = "답변 생성", description = "답변 생성 API")
     @PostMapping
     public ResponseEntity create(@RequestBody AnswerCreateRequest request) {
-        System.out.println("hi");
         answerService.createAnswer(request);
         return ResponseEntity.ok("ok");
     }
@@ -54,4 +50,5 @@ public class AnswerController {
     public ResponseEntity findById(@PathVariable Long id) {
         return ResponseEntity.ok(answerService.findById(id));
     }
+
 }

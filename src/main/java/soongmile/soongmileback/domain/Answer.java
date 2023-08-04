@@ -5,21 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import soongmile.soongmileback.domain.Answer;
-import soongmile.soongmileback.domain.Field;
-import soongmile.soongmileback.domain.Member;
-import soongmile.soongmileback.domain.Tag;
 import soongmile.soongmileback.domain.request.AnswerCreateRequest;
-import soongmile.soongmileback.domain.request.QuestionCreateRequest;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -32,14 +23,10 @@ public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "answer_id")
+    private Long id;    //answer_id
 
-    // 작성자
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    // 본문
+    // 답변 내용
     @Column(name = "content", length = 500, nullable = false)
     private String content;
 
@@ -47,6 +34,15 @@ public class Answer {
     @Column(name = "post_time")
     @CreatedDate
     private LocalDateTime postTime;
+
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
+
+    // 작성자
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member; //user_id
 
     // 수정 시간
 //    @Column(name = "edit_time")
@@ -65,13 +61,15 @@ public class Answer {
 //    List<Answer> answers = new ArrayList<>();
 
     public static Answer create(AnswerCreateRequest request) {
-        // TODO: 2023/07/31 현재 멤버 기능이 없어서 임시로 멤버 생성
+        // TODO: 2023/08/05 현재 멤버 기능이 없어서 임시로 멤버 생성
         Member member = new Member();
+        Question question = new Question();
         member.setId(1L);
         return Answer.builder()
                 .content(request.getContent())
-                .member(member)
                 .likes(0)
+                .member(member)
+                .question(question)
                 .build();
     }
 }
