@@ -23,6 +23,19 @@ public class MemberSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        Member member = memberRepository.findByEmail(email);
+
+        if (!member.getEmail().equals(email)) {
+            System.out.println("로그인 실패???");
+            throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
+        }
+
+        return member;
+/*
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
         Member member = this.memberRepository.findByEmail(email);
 
         if (!member.getEmail().equals(email)) {
@@ -35,8 +48,8 @@ public class MemberSecurityService implements UserDetailsService {
         } else {
             authorities.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
         }*/
-        authorities.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
+        /*authorities.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
         System.out.println("로그인 성공!!!");
-        return new User(member.getEmail(), member.getPassword(), authorities);
+        return new User(member.getEmail(), member.getPassword(), authorities);*/
     }
 }
