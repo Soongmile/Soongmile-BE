@@ -10,7 +10,9 @@ import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.MemberCreateForm;
 import soongmile.soongmileback.repository.MemberRepository;
 import soongmile.soongmileback.service.MemberService;
+import soongmile.soongmileback.utils.JwtService;
 import soongmile.soongmileback.utils.JwtTokenProvider;
+import soongmile.soongmileback.utils.Token;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class MemberController {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final JwtService jwtService;
 
     @GetMapping("/join")
     public String join(Model model) {
@@ -62,7 +65,7 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> user) {
+    public Token login(@RequestBody Map<String, String> user) {
         log.info("user email = {}", user.get("email"));
         Member member = memberRepository.findByEmail(user.get("email"));
 
@@ -71,6 +74,9 @@ public class MemberController {
             throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
         }
 
-        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+        Token tokenDto = jwtTokenProvider.createAccessToken(member.getUsername(), member.getRoles());
+        log.info("getroleeeee = {}", member.getRoles());
+        jwtService.login(tokenDto);
+        return tokenDto;
     }
 }
