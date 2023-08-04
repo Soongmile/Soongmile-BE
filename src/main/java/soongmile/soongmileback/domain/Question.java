@@ -31,12 +31,13 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "question_id")
     private Long id;
 
     // 작성자
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member member; //user_id
 
     // 제목
     @Column(length = 100, name = "title", nullable = false)
@@ -72,6 +73,7 @@ public class Question {
     // 태그
     @Column(name = "tag", nullable = false)
     private String tag;
+
 
     // TODO: 2023/07/31 Answer 개발이후
     // 답변
