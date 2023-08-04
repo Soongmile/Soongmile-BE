@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    @PostMapping("/token")
+    public String postToken() {
+        return "<h1>good<h1>";
+    }
+
     @PostMapping("/test")
     public String test(){
 

@@ -50,5 +50,4 @@ public class AnswerController {
     public ResponseEntity findById(@PathVariable Long id) {
         return ResponseEntity.ok(answerService.findById(id));
     }
-
 }
