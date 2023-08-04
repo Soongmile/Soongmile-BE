@@ -1,22 +1,28 @@
 package soongmile.soongmileback.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Controller;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.MemberCreateForm;
+import soongmile.soongmileback.repository.MemberRepository;
 import soongmile.soongmileback.service.MemberService;
+import soongmile.soongmileback.utils.JwtTokenProvider;
 
 import javax.validation.Valid;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Map;
 
-@Controller
+@Slf4j
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class MemberController {
 
+    private final JwtTokenProvider jwtTokenProvider;
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     @GetMapping("/join")
@@ -52,5 +58,19 @@ public class MemberController {
     @GetMapping("/login")
     public String login() {
         return "login_form";
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public String login(@RequestBody Map<String, String> user) {
+        log.info("user email = {}", user.get("email"));
+        Member member = memberRepository.findByEmail(user.get("email"));
+
+        if (!member.getEmail().equals(user.get("email"))) {
+            System.out.println("로그인 실패???");
+            throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
+        }
+
+        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
     }
 }
