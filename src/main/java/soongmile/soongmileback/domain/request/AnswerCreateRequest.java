@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 public class AnswerCreateRequest {
 
     @NotEmpty(message = "본문을 입력해주세요.")
-    @Size(max = 500, message = "제목은 최대 500글자까지 입력할 수 있습니다.")
+    @Size(max = 800, message = "제목은 최대 500글자까지 입력할 수 있습니다.")
     @JsonProperty
     private String content;
 
