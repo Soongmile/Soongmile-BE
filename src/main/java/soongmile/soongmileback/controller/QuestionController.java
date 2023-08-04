@@ -18,14 +18,14 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Tag(name = "questions", description = "Question API")
-@Controller
+@RestController
 @RequestMapping("/user/question")
 @RequiredArgsConstructor
 public class QuestionController {
 
     private final QuestionService questionService;
 
-    @GetMapping("/test/write") //기본 주소 요청
+    @GetMapping("/write") //기본 주소 요청
     public String qWrite(Model model, Principal principal) {  //이 메서드 호출
         System.out.println("여기까지는 들어옴.");
         System.out.println(principal.getName());
