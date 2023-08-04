@@ -18,14 +18,14 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Tag(name = "questions", description = "Question API")
-@RestController
+@Controller
 @RequestMapping("/user/question")
 @RequiredArgsConstructor
 public class QuestionController {
 
     private final QuestionService questionService;
 
-    @GetMapping("/write") //기본 주소 요청
+    @GetMapping("/test/write") //기본 주소 요청
     public String qWrite(Model model, Principal principal) {  //이 메서드 호출
         System.out.println("여기까지는 들어옴.");
         System.out.println(principal.getName());
@@ -39,8 +39,9 @@ public class QuestionController {
         return "questionWrite";     //호출 후 이걸 찾아감
     }
 
+    @ResponseBody
     @Operation(summary = "질문 생성", description = "질문 생성 API")
-    @PostMapping("/write")
+    @PostMapping
     public ResponseEntity create(@RequestBody QuestionCreateRequest request) {
         System.out.println("hi");
         questionService.createQuestion(request);
