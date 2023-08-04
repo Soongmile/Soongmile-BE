@@ -49,6 +49,5 @@ public class AnswerController {
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable Long id) {
         return ResponseEntity.ok(answerService.findById(id));
-<<<<<<< HEAD
     }
 }
