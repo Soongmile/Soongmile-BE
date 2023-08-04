@@ -38,8 +38,7 @@ public class QuestionController {
         model.addAttribute("questionNew", new QuestionCreateRequest());
         return "questionWrite";     //호출 후 이걸 찾아감
     }
-
-    @ResponseBody
+    
     @Operation(summary = "질문 생성", description = "질문 생성 API")
     @PostMapping
     public ResponseEntity create(@RequestBody QuestionCreateRequest request) {
