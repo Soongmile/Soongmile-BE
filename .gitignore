@@ -4,11 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-application.properties
-!**/server_log.log
-log
-.gradle
-build
 
 ### STS ###
 .apt_generated
@@ -24,7 +19,6 @@ bin/
 
 ### IntelliJ IDEA ###
 src/main/resources/application.properties
-application-security.properties
 .idea
 *.iws
 *.iml
