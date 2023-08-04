@@ -17,5 +17,8 @@ public class AnswerCreateResponse {
     @JsonProperty
     private Long memberId;
 
+    @JsonProperty
+    private Long questionId;
+
 }
 

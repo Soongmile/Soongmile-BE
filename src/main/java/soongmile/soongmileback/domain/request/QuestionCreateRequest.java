@@ -26,6 +26,7 @@ public class QuestionCreateRequest {
     @JsonProperty
     private Field field;
 
+    @NotEmpty(message = "하나 이상 태그를 입력해주세요.")
     @JsonProperty
     private String tag;
 

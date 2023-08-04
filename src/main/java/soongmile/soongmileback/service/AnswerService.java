@@ -1,6 +1,6 @@
 package soongmile.soongmileback.service;
 
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Service;
 import soongmile.soongmileback.domain.Answer;
 import soongmile.soongmileback.domain.request.AnswerCreateRequest;
@@ -25,6 +25,7 @@ public class AnswerService {
                 .builder()
                 .content(answer.getContent())
                 .memberId(answer.getMember().getId())
+                .questionId(answer.getQuestion().getId())
                 .build();
     }
 }
