@@ -55,16 +55,12 @@ public class Answer {
     private Integer likes;
 
 
-    // TODO: 2023/07/31 Answer 개발이후
-    // 답변
-//    @OneToMany(mappedBy = "question", cascade = ALL, fetch = LAZY)
-//    List<Answer> answers = new ArrayList<>();
-
     public static Answer create(AnswerCreateRequest request) {
         // TODO: 2023/08/05 현재 멤버 기능이 없어서 임시로 멤버 생성
         Member member = new Member();
         Question question = new Question();
         member.setId(1L);
+
         return Answer.builder()
                 .content(request.getContent())
                 .likes(0)

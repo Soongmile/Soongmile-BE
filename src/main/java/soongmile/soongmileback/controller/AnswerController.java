@@ -32,7 +32,6 @@ public class AnswerController {
             //로그인하지 않은 사용자는 로그인 페이지로
             return "/user/login";
         }
-        System.out.println("auth는 null이ㅌ 아닌가봐.");
         model.addAttribute("answerNew", new AnswerCreateRequest());
         return "questionWrite";     //호출 후 이걸 찾아감
     }

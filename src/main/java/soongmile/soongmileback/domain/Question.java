@@ -30,7 +30,7 @@ import static javax.persistence.FetchType.*;
 public class Question {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO) //IDENTITY -> AUTO
     @Column(name = "question_id")
     private Long id;
 
@@ -94,4 +94,5 @@ public class Question {
                 .likes(0)
                 .build();
     }
+
 }

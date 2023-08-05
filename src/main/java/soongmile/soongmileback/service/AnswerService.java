@@ -8,12 +8,15 @@ import soongmile.soongmileback.domain.response.AnswerCreateResponse;
 import soongmile.soongmileback.repository.AnswerRepository;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
     public void createAnswer(AnswerCreateRequest request) {
+        // 데이터가 올바르게 전달되었는지 확인
+        System.out.println("AnswerCreateRequest content: " + request.getContent());
         Answer answer = Answer.create(request);
         answerRepository.save(answer);
     }
