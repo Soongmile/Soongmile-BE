@@ -1,5 +1,6 @@
 package soongmile.soongmileback.controller;
 
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import soongmile.soongmileback.service.AnswerService;
 import javax.validation.Valid;
 import java.security.Principal;
 
-@Tag(name = "answers", description = "Answer API")
+@Api(tags = "answer", value = "Answer API")
 @Controller
 @RequestMapping("/user/answer")
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class AnswerController {
     @ResponseBody
     @Operation(summary = "답변 생성", description = "답변 생성 API")
     @PostMapping
-    public ResponseEntity create(@RequestBody AnswerCreateRequest request) {
+    public ResponseEntity create(@RequestBody @Valid AnswerCreateRequest request) {
         answerService.createAnswer(request);
         return ResponseEntity.ok("ok");
     }

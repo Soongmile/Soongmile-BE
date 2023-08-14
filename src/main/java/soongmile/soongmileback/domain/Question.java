@@ -1,9 +1,6 @@
 package soongmile.soongmileback.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import soongmile.soongmileback.domain.Answer;
@@ -23,6 +20,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +29,6 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) //IDENTITY -> AUTO
-    @Column(name = "question_id")
     private Long id;
 
     // 작성자
@@ -74,11 +71,9 @@ public class Question {
     @Column(name = "tag", nullable = false)
     private String tag;
 
-
-    // TODO: 2023/07/31 Answer 개발이후
     // 답변
-//    @OneToMany(mappedBy = "question", cascade = ALL, fetch = LAZY)
-//    List<Answer> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "question", cascade = ALL, fetch = LAZY)
+    List<Answer> answers = new ArrayList<>();
 
     public static Question create(QuestionCreateRequest request) {
         // TODO: 2023/07/31 현재 멤버 기능이 없어서 임시로 멤버 생성  
