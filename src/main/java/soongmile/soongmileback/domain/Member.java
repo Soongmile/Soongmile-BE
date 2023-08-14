@@ -2,8 +2,8 @@ package soongmile.soongmileback.domain;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.EnumType.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.EnumType.STRING;
 
 @Entity
 @Getter
@@ -53,11 +53,11 @@ public class Member implements UserDetails {
     private String collegeId;
 
     // 작성한 질문글 모음
-    @OneToMany(mappedBy = "member", cascade = ALL)
+    @OneToMany(mappedBy = "member", cascade = ALL, fetch = FetchType.LAZY)
     private List<Question> questions = new ArrayList<>();
 
     // 작성한 답변 모음
-    @OneToMany(mappedBy = "member", cascade = ALL)
+    @OneToMany(mappedBy = "member", cascade = ALL, fetch = FetchType.LAZY)
     private List<Answer> answers = new ArrayList<>();
 
     // 포인트

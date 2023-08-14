@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import soongmile.soongmileback.domain.Field;
 
 @Getter @Setter
 @Builder
