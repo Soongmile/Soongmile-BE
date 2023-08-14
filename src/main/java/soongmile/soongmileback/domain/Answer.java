@@ -22,7 +22,7 @@ import static javax.persistence.FetchType.LAZY;
 @EntityListeners(AuditingEntityListener.class)
 public class Answer {
 
-    //@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    //answer_id
 
