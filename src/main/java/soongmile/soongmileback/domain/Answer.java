@@ -10,8 +10,9 @@ import soongmile.soongmileback.domain.request.AnswerCreateRequest;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter

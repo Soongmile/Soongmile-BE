@@ -2,16 +2,20 @@ package soongmile.soongmileback.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import soongmile.soongmileback.domain.request.QuestionCreateRequest;
+import soongmile.soongmileback.repository.QuestionRepository;
 import soongmile.soongmileback.service.QuestionService;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Api(tags = "question", value = "Question API")

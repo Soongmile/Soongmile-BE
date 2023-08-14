@@ -2,8 +2,8 @@ package soongmile.soongmileback.domain;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.EnumType.STRING;
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.EnumType.*;
 
 @Entity
 @Getter

@@ -4,6 +4,7 @@ package soongmile.soongmileback.domain.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import soongmile.soongmileback.domain.Field;
 
 import javax.validation.constraints.NotEmpty;
 
