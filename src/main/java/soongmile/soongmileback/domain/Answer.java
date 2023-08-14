@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import soongmile.soongmileback.domain.request.AnswerCreateRequest;
 
 import javax.persistence.*;
@@ -20,11 +19,11 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "answer")
-@EntityListeners(AuditingEntityListener.class)
 public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "answer_id")
     private Long id;    //answer_id
 
     // 답변 내용
@@ -36,7 +35,7 @@ public class Answer {
     @CreatedDate
     private LocalDateTime postTime;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 
@@ -56,9 +55,10 @@ public class Answer {
     private Integer likes;
 
 
-    public static Answer create(AnswerCreateRequest request, Question question) {
+    public static Answer create(AnswerCreateRequest request) {
         // TODO: 2023/08/05 현재 멤버 기능이 없어서 임시로 멤버 생성
         Member member = new Member();
+        Question question = new Question();
         member.setId(1L);
 
         return Answer.builder()

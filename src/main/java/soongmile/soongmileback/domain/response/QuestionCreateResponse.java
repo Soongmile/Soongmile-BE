@@ -5,12 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import soongmile.soongmileback.domain.Answer;
 import soongmile.soongmileback.domain.Field;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Getter @Setter
 @Builder
@@ -30,12 +28,6 @@ public class QuestionCreateResponse {
 
     @JsonProperty
     private Long memberId;
-
-    @JsonProperty
-    private Integer hits;
-
-    @JsonProperty
-    private List<AnswerView> answerList;
 
 }
 

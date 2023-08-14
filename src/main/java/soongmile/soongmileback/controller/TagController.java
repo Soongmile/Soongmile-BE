@@ -1,6 +1,5 @@
 package soongmile.soongmileback.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,7 @@ import soongmile.soongmileback.domain.request.TagCreateRequest;
 import soongmile.soongmileback.domain.request.TagUpdateRequest;
 import soongmile.soongmileback.service.TagService;
 
-@Api(tags = "tag", value = "Tag API")
+@Tag(name = "tag", description = "Tag API")
 @RestController
 @RequestMapping("/tag")
 @RequiredArgsConstructor
