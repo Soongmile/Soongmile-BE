@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import soongmile.soongmileback.constant.Constant;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -80,8 +81,16 @@ public class Member implements UserDetails {
         this.major = null;
         this.field = null;
         this.collegeId = null;
-        this.point = 0;
+        this.point = Constant.CREATE_ACCOUNT;
         this.roles = Collections.singletonList("ROLE_USER");
+    }
+
+    public void addQuestionPoint() {
+        this.point += Constant.CREATE_QUESTION;
+    }
+
+    public void addAnswerPoint() {
+        this.point += Constant.CREATE_ANSWER;
     }
 
     @Override
