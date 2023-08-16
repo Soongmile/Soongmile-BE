@@ -75,10 +75,7 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = ALL, fetch = LAZY)
     List<Answer> answers = new ArrayList<>();
 
-    public static Question create(QuestionCreateRequest request) {
-        // TODO: 2023/07/31 현재 멤버 기능이 없어서 임시로 멤버 생성  
-        Member member = new Member();
-        member.setId(1L);
+    public static Question create(QuestionCreateRequest request, Member member) {
         return Question.builder()
                 .title(request.getTitle())
                 .content(request.getContent())

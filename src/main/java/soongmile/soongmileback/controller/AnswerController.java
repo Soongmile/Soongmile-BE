@@ -50,4 +50,10 @@ public class AnswerController {
     public ResponseEntity findById(@PathVariable Long id) {
         return ResponseEntity.ok(answerService.findById(id));
     }
+
+    @Operation(summary = "답변 좋아요", description = "답변 좋아요 API")
+    @GetMapping("/like/{id}")
+    public ResponseEntity like(@PathVariable Long id) {
+        return ResponseEntity.ok(answerService.likeById(id));
+    }
 }

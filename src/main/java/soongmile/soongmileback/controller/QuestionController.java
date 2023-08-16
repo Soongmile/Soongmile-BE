@@ -54,4 +54,10 @@ public class QuestionController {
     public ResponseEntity findById(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.findById(id));
     }
+
+    @Operation(summary = "질문 좋아요", description = "질문 좋아요 API")
+    @PutMapping("/like/{id}")
+    public ResponseEntity like(@PathVariable Long id) {
+        return ResponseEntity.ok(questionService.likeById(id));
+    }
 }
