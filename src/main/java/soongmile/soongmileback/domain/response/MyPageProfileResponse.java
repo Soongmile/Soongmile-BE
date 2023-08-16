@@ -8,6 +8,7 @@ import soongmile.soongmileback.domain.Major;
 
 @Data
 public class MyPageProfileResponse {
+
     private String memberName;
     private Department department;
     private Major major;
