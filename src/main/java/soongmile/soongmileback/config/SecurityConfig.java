@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/user/join", "/user/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/user/**").authenticated()
                 .antMatchers("/test").authenticated()
                 .and()
                 .sessionManagement()

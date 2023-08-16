@@ -31,6 +31,12 @@ public class TagController {
         return ResponseEntity.ok(tagService.getAllTags());
     }
 
+    @Operation(summary = "태그 맵 전체 조회", description = "태그 맵 전체 조회 API")
+    @GetMapping("/map")
+    public ResponseEntity getAllTagMap() {
+        return ResponseEntity.ok(tagService.getAllTagMap());
+    }
+
     @Operation(summary = "필드별 태그 조회", description = "필드별 태그 조회 API")
     @GetMapping("/{field}")
     public ResponseEntity getTagsByField(@PathVariable Field field) {

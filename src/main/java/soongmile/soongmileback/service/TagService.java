@@ -11,7 +11,9 @@ import soongmile.soongmileback.domain.response.TagView;
 import soongmile.soongmileback.repository.TagRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -41,14 +43,29 @@ public class TagService {
             response.add(tagView);
         }
         return response;
+    }
 
-//        return all.stream().map(
-//                tag -> TagView.builder()
-//                        .id(tag.getId())
-//                        .field(tag.getField())
-//                        .tagName(tag.getTagName())
-//                        .build())
-//                .collect(Collectors.toList());
+    public Map<Field, List<String>> getAllTagMap() {
+        List<Tag> all = tagRepository.findAll();
+
+        Map<Field, List<String>> map = new HashMap<>();
+
+
+
+        for (Tag tag : all) {
+            if (map.containsKey(tag.getField())) {
+                List<String> tags = map.get(tag.getField());
+                tags.add(tag.getTagName());
+                map.put(tag.getField(), tags);
+                continue;
+            }
+
+            List<String> tags = new ArrayList<>();
+            tags.add(tag.getTagName());
+            map.put(tag.getField(), tags);
+        }
+
+        return map;
     }
 
     public List<TagView> getTagsByField(Field field) {

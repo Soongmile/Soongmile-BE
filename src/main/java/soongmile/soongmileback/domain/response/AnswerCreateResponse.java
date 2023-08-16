@@ -20,5 +20,8 @@ public class AnswerCreateResponse {
     @JsonProperty
     private Long questionId;
 
+    @JsonProperty
+    private Integer likes;
+
 }
 

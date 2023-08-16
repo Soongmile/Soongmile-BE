@@ -1,5 +1,6 @@
 package soongmile.soongmileback.domain;
 
+import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -56,11 +58,7 @@ public class Answer {
     private Integer likes;
 
 
-    public static Answer create(AnswerCreateRequest request, Question question) {
-        // TODO: 2023/08/05 현재 멤버 기능이 없어서 임시로 멤버 생성
-        Member member = new Member();
-        member.setId(1L);
-
+    public static Answer create(AnswerCreateRequest request, Question question, Member member) {
         return Answer.builder()
                 .content(request.getContent())
                 .likes(0)
