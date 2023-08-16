@@ -1,5 +1,6 @@
 package soongmile.soongmileback.controller;
 
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import soongmile.soongmileback.service.MemberService;
 import javax.validation.Valid;
 import java.util.Map;
 
-@Tag(name = "members", description = "Member API")
+@Api(tags = "members", value = "회원 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor

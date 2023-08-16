@@ -1,5 +1,6 @@
 package soongmile.soongmileback.controller;
 
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -11,34 +12,35 @@ import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.response.MyPageAnswersResponse;
 import soongmile.soongmileback.domain.response.MyPageProfileResponse;
 import soongmile.soongmileback.domain.response.MyPageQuestionsResponse;
+import springfox.documentation.annotations.ApiIgnore;
 
-@Tag(name = "MyPage", description = "MyPage API")
+@Api(tags = "MyPage", value = "마이페이지 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user/mypage")
 public class MyPageController {
 
-    @Operation(summary = "마이 페이지 프로필 조회", description = "마이페이지 프로필 API")
+    @Operation(summary = "프로필 조회", description = "프로필 API")
     @GetMapping("/profile")
-    public MyPageProfileResponse myPageProfile(@AuthenticationPrincipal Member member) {
+    public MyPageProfileResponse myPageProfile(@ApiIgnore @AuthenticationPrincipal Member member) {
         if (member == null) {
             throw new IllegalStateException();
         }
         return new MyPageProfileResponse(member.getMemberName(), member.getDepartment(), member.getMajor(), member.getField());
     }
 
-    @Operation(summary = "마이 페이지 내가 쓴 글 조회", description = "마이페이지 내가 쓴 글 API")
+    @Operation(summary = "내가 쓴 글 조회", description = "내가 쓴 글 API")
     @GetMapping("/questions")
-    public MyPageQuestionsResponse myPageQuestions(@AuthenticationPrincipal Member member) {
+    public MyPageQuestionsResponse myPageQuestions(@ApiIgnore @AuthenticationPrincipal Member member) {
         if (member == null) {
             throw new IllegalStateException();
         }
         return new MyPageQuestionsResponse(member.getQuestions());
     }
 
-    @Operation(summary = "마이 페이지 내가 쓴 답변 조회", description = "마이페이지 내가 쓴 답변 API")
+    @Operation(summary = "내가 쓴 답변 조회", description = "내가 쓴 답변 API")
     @GetMapping("/answers")
-    public MyPageAnswersResponse myPageAnswers(@AuthenticationPrincipal Member member) {
+    public MyPageAnswersResponse myPageAnswers(@ApiIgnore @AuthenticationPrincipal Member member) {
         if (member == null) {
             throw new IllegalStateException();
         }
