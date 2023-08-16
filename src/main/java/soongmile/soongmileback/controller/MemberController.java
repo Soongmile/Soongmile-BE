@@ -1,5 +1,8 @@
 package soongmile.soongmileback.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +18,7 @@ import soongmile.soongmileback.service.MemberService;
 import javax.validation.Valid;
 import java.util.Map;
 
+@Api(tags = "members", value = "회원 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class MemberController {
         return "join_form";
     }
 
+    @Operation(summary = "회원가입", description = "회원가입 API")
     @PostMapping("/join")
     public String join(@RequestBody @Valid MemberCreateForm memberCreateForm, BindingResult bindingResult) {
         System.out.println(memberCreateForm.getEmail());
@@ -61,6 +66,7 @@ public class MemberController {
     }
 
     // 로그인
+    @Operation(summary = "로그인", description = "로그인 API")
     @PostMapping("/login")
     public String login(@RequestBody Map<String, String> user) {
         log.info("user email = {}", user.get("email"));
