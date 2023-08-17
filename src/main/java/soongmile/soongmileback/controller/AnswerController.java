@@ -10,7 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.request.AnswerCreateRequest;
+import soongmile.soongmileback.domain.request.QuestionCreateRequest;
+import soongmile.soongmileback.jwt.JwtTokenProvider;
+import soongmile.soongmileback.repository.MemberRepository;
 import soongmile.soongmileback.service.AnswerService;
 
 
@@ -23,6 +27,8 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AnswerController {
 
+    private final MemberRepository memberRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     private final AnswerService answerService;
 
     @GetMapping("/test/answer") //기본 주소 요청
@@ -40,7 +46,12 @@ public class AnswerController {
     @ResponseBody
     @Operation(summary = "답변 생성", description = "답변 생성 API")
     @PostMapping
-    public ResponseEntity create(@RequestBody @Valid AnswerCreateRequest request) {
+    public ResponseEntity create(@RequestHeader(value = "Authorization", required = false) String token, @RequestBody @Valid AnswerCreateRequest request) {
+        String email = jwtTokenProvider.getUserPk(token);
+        Member member = memberRepository.findByEmail(email);
+        if (member == null) {
+            throw new IllegalStateException();
+        }
         answerService.createAnswer(request);
         return ResponseEntity.ok("ok");
     }
@@ -53,7 +64,13 @@ public class AnswerController {
 
     @Operation(summary = "답변 좋아요", description = "답변 좋아요 API")
     @GetMapping("/like/{id}")
-    public ResponseEntity like(@PathVariable Long id) {
+    public ResponseEntity like(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable Long id) {
+        String email = jwtTokenProvider.getUserPk(token);
+        Member member = memberRepository.findByEmail(email);
+        if (member == null) {
+            throw new IllegalStateException();
+        }
         return ResponseEntity.ok(answerService.likeById(id));
     }
+
 }

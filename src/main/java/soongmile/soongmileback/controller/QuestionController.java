@@ -11,7 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.request.QuestionCreateRequest;
+import soongmile.soongmileback.domain.response.MyPageProfileResponse;
+import soongmile.soongmileback.jwt.JwtTokenProvider;
+import soongmile.soongmileback.repository.MemberRepository;
 import soongmile.soongmileback.repository.QuestionRepository;
 import soongmile.soongmileback.service.QuestionService;
 
@@ -24,6 +28,8 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class QuestionController {
 
+    private final MemberRepository memberRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     private final QuestionService questionService;
 
     @GetMapping("/test/write") //기본 주소 요청
@@ -43,8 +49,12 @@ public class QuestionController {
     @ResponseBody
     @Operation(summary = "질문 생성", description = "질문 생성 API")
     @PostMapping
-    public ResponseEntity create(@RequestBody QuestionCreateRequest request) {
-        System.out.println("hi");
+    public ResponseEntity create(@RequestHeader(value = "Authorization", required = false) String token, @RequestBody QuestionCreateRequest request) {
+        String email = jwtTokenProvider.getUserPk(token);
+        Member member = memberRepository.findByEmail(email);
+        if (member == null) {
+            throw new IllegalStateException();
+        }
         questionService.createQuestion(request);
         return ResponseEntity.ok("ok");
     }
@@ -57,7 +67,13 @@ public class QuestionController {
 
     @Operation(summary = "질문 좋아요", description = "질문 좋아요 API")
     @PutMapping("/like/{id}")
-    public ResponseEntity like(@PathVariable Long id) {
+    public ResponseEntity like(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable Long id) {
+        String email = jwtTokenProvider.getUserPk(token);
+        Member member = memberRepository.findByEmail(email);
+        if (member == null) {
+            throw new IllegalStateException();
+        }
         return ResponseEntity.ok(questionService.likeById(id));
     }
+
 }
