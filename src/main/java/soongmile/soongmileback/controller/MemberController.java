@@ -63,9 +63,9 @@ public class MemberController {
                 throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
             }
 
-            /*if (passwordEncoder.matches(signInRequest.getPassword(), member.getPassword())) {
+            if (!passwordEncoder.matches(signInRequest.getPassword(), member.getPassword())) {
                 throw new IllegalStateException("비밀번호가 틀립니다.");
-            }*/
+            }
 
             String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
             return token;
