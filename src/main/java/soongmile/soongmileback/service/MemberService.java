@@ -1,6 +1,8 @@
 package soongmile.soongmileback.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,14 +13,15 @@ import soongmile.soongmileback.repository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
+@PropertySource("classpath:application.properties")
 @Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    //@Value("${jwt.secret}")
-    private String secretKey = "VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa";
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     private Long expiredMs = 1000 * 60 * 60 * 24l;
 
