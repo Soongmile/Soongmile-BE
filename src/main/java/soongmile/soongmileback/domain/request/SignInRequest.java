@@ -1,11 +1,9 @@
 package soongmile.soongmileback.domain.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-public class LoginRequest {
+@Data
+public class SignInRequest {
 
     private String email;
     private String password;

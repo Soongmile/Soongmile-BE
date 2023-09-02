@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.Member;
+import soongmile.soongmileback.domain.request.SignUpRequest;
 import soongmile.soongmileback.jwt.JwtUtil;
 import soongmile.soongmileback.repository.MemberRepository;
 
@@ -22,11 +23,13 @@ public class MemberService {
     private Long expiredMs = 1000 * 60 * 60 * 24l;
 
     @Transactional
-    public Member create(String email, String password, String memberName) {
-        Member member = new Member(email, passwordEncoder.encode(password), memberName);
-        System.out.println(member.getId());
+    public Long create(SignUpRequest signUpRequest) {
+        if (!signUpRequest.getPassword().equals(signUpRequest.getPasswordchecker())) {
+            throw new RuntimeException();
+        }
+        Member member = new Member(signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getMembername());
         memberRepository.save(member);
-        return member;
+        return member.getId();
     }
 
     @Transactional
