@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.MemberCreateForm;
+import soongmile.soongmileback.domain.request.LoginRequest;
 import soongmile.soongmileback.jwt.JwtTokenProvider;
 import soongmile.soongmileback.repository.MemberRepository;
 import soongmile.soongmileback.service.MemberService;
@@ -68,15 +69,26 @@ public class MemberController {
     // 로그인
     @Operation(summary = "로그인", description = "로그인 API")
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> user) {
-        log.info("user email = {}", user.get("email"));
-        Member member = memberRepository.findByEmail(user.get("email"));
+    public String login(@RequestBody LoginRequest loginRequest) {
+        try {
+            Member member = memberRepository.findByEmail(loginRequest.getEmail());
 
-        if (!member.getEmail().equals(user.get("email"))) {
-            System.out.println("로그인 실패???");
-            throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
+            if (member == null) {
+                throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
+            }
+
+            if (!member.getPassword().equals(loginRequest.getPassword())) {
+                throw new IllegalStateException("비밀번호가 틀립니다.");
+            }
+
+            return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+        } catch (UsernameNotFoundException e) {
+            // return new BaseResponse<>(INVALID_USER);
+        } catch (IllegalStateException e) {
+            // return new BaseResponse<>(INVALID_PASSWORD);
+        } catch (Exception e) {
+            // return new BaseResponse<>(LOGIN_ERROR);
         }
-
-        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+        return "";
     }
 }
