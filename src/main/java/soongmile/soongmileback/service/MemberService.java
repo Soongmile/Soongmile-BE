@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.Member;
-import soongmile.soongmileback.domain.request.SignUpRequest;
+import soongmile.soongmileback.request.SignUpRequest;
 import soongmile.soongmileback.jwt.JwtUtil;
 import soongmile.soongmileback.repository.MemberRepository;
 

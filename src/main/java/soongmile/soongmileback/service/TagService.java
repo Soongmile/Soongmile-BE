@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.Field;
 import soongmile.soongmileback.domain.Tag;
-import soongmile.soongmileback.domain.request.TagCreateRequest;
-import soongmile.soongmileback.domain.request.TagUpdateRequest;
-import soongmile.soongmileback.domain.response.TagView;
+import soongmile.soongmileback.request.TagCreateRequest;
+import soongmile.soongmileback.request.TagUpdateRequest;
+import soongmile.soongmileback.response.TagView;
 import soongmile.soongmileback.repository.TagRepository;
 
 import java.util.ArrayList;

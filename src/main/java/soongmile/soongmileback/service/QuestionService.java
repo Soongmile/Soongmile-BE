@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.Question;
-import soongmile.soongmileback.domain.request.QuestionCreateRequest;
-import soongmile.soongmileback.domain.response.AnswerView;
-import soongmile.soongmileback.domain.response.QuestionCreateResponse;
+import soongmile.soongmileback.request.QuestionCreateRequest;
+import soongmile.soongmileback.response.AnswerView;
+import soongmile.soongmileback.response.QuestionCreateResponse;
 import soongmile.soongmileback.repository.QuestionRepository;
 
 import java.util.List;

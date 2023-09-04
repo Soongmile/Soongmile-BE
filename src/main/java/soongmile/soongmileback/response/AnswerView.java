@@ -1,5 +1,5 @@
 
-package soongmile.soongmileback.domain.response;
+package soongmile.soongmileback.response;
 
 import lombok.Builder;
 import lombok.Getter;
