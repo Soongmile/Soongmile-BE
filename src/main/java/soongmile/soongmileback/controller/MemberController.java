@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import soongmile.soongmileback.request.SignInRequest;
@@ -34,13 +36,25 @@ public class MemberController {
         }
     }
 
-    // 여기서 인증코드 매칭하고 인증됐는지 안됐는지 여부를 알려줘야 함!
-    // 회원가입 - 이메일 인증
-    @Operation(summary = "회원가입 중 학교 이메일 인증", description = "학교 이메일 인증 API")
-    @PostMapping("/emailConfirm")
-    public String emailConfirm(@RequestParam String email) throws Exception {
+    // 회원가입 - 이메일 인증번호 전송
+    @Operation(summary = "회원가입 중 학교 이메일 인증번호 전송", description = "학교 이메일 인증번호 전송 API")
+    @PostMapping("/emailCode")
+    public String sendEmailCode(@RequestParam String email) throws Exception {
+        System.out.println("시작!");
         return emailService.sendSimpleMessage(email);
     }
+
+    // 회원가입 - 이메일 인증번호 매칭
+    @Operation(summary = "전송된 인증번호와 매칭", description = "인증번호 매칭 API")
+    @PostMapping("/emailConfirm")
+    public String emailConfirm(@RequestParam String code) throws ChangeSetPersister.NotFoundException {
+        try {
+            return emailService.verifyEmail(code);
+        } catch (ChangeSetPersister.NotFoundException e) {
+            return "유효하지 않은 인증번호입니다.";
+        }
+    }
+
 
     // 로그인
     @Operation(summary = "로그인", description = "로그인 API")
