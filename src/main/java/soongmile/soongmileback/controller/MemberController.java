@@ -40,7 +40,6 @@ public class MemberController {
     @Operation(summary = "회원가입 중 학교 이메일 인증번호 전송", description = "학교 이메일 인증번호 전송 API")
     @PostMapping("/emailCode")
     public String sendEmailCode(@RequestParam String email) throws Exception {
-        System.out.println("시작!");
         return emailService.sendSimpleMessage(email);
     }
 
