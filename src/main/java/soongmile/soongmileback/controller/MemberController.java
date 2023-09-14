@@ -5,16 +5,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import soongmile.soongmileback.domain.Member;
-import soongmile.soongmileback.domain.MemberCreateForm;
-import soongmile.soongmileback.domain.request.SignInRequest;
-import soongmile.soongmileback.domain.request.SignUpRequest;
-import soongmile.soongmileback.jwt.JwtTokenProvider;
-import soongmile.soongmileback.repository.MemberRepository;
+import soongmile.soongmileback.request.SignInRequest;
+import soongmile.soongmileback.request.SignUpRequest;
 import soongmile.soongmileback.service.EmailService;
 import soongmile.soongmileback.service.MemberService;
 
@@ -27,11 +20,8 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class MemberController {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final EmailService emailService;
-    private final PasswordEncoder passwordEncoder;
 
     @Operation(summary = "회원가입", description = "회원가입 API")
     @PostMapping("/join")
@@ -57,21 +47,10 @@ public class MemberController {
     @PostMapping("/login")
     public String login(@RequestBody SignInRequest signInRequest) {
         try {
-            Member member = memberRepository.findByEmail(signInRequest.getEmail());
-
-            if (member == null) {
-                throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
-            }
-
-            if (!passwordEncoder.matches(signInRequest.getPassword(), member.getPassword())) {
-                throw new IllegalStateException("비밀번호가 틀립니다.");
-            }
-
-            String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
-            return token;
+            return memberService.login(signInRequest);
         } catch (UsernameNotFoundException e) {
-            return "없는 사람";
-            // return new BaseResponse<>(INVALID_USER);
+            return "사용자가 존재하지 않습니다.";
+            // return ResponseDto.fail(HttpStatus.N, "사용자가 존재하지 않습니다.");
         } catch (IllegalStateException e) {
             return "비밀번호 틀림 ㅋ";
             // return new BaseResponse<>(INVALID_PASSWORD);
