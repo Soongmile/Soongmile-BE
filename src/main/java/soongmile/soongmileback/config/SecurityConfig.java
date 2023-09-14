@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/user/join", "/user/login", "/user/emailConfirm").permitAll()
+                .antMatchers("/user/join", "/user/login", "/user/emailConfirm", "/user/emailCode").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/user/**").authenticated()
                 .antMatchers("/test").authenticated()
