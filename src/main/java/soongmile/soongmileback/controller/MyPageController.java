@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import soongmile.soongmileback.domain.Member;
-import soongmile.soongmileback.response.MyPageAnswersResponse;
-import soongmile.soongmileback.response.MyPageProfileResponse;
-import soongmile.soongmileback.response.MyPageQuestionsResponse;
+import soongmile.soongmileback.domain.response.MyPageAnswersResponse;
+import soongmile.soongmileback.domain.response.MyPageProfileResponse;
+import soongmile.soongmileback.domain.response.MyPageQuestionsResponse;
 import soongmile.soongmileback.jwt.JwtTokenProvider;
 import soongmile.soongmileback.repository.MemberRepository;
 

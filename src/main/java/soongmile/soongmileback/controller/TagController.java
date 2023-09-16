@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import soongmile.soongmileback.domain.Field;
-import soongmile.soongmileback.request.TagCreateRequest;
-import soongmile.soongmileback.request.TagUpdateRequest;
+import soongmile.soongmileback.domain.request.TagCreateRequest;
+import soongmile.soongmileback.domain.request.TagUpdateRequest;
 import soongmile.soongmileback.service.TagService;
 
 @Api(tags = "tag", value = "Tag API")

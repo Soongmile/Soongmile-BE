@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import soongmile.soongmileback.domain.Member;
-import soongmile.soongmileback.request.AnswerCreateRequest;
+import soongmile.soongmileback.domain.request.AnswerCreateRequest;
 import soongmile.soongmileback.jwt.JwtTokenProvider;
 import soongmile.soongmileback.repository.MemberRepository;
 import soongmile.soongmileback.service.AnswerService;
@@ -70,5 +70,13 @@ public class AnswerController {
         }
         return ResponseEntity.ok(answerService.likeById(id));
     }
+
+//    public ResponseEntity like(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable Long id) {
+//        String email = jwtTokenProvider.getUserPk(token);
+//        Member member = memberRepository.findByEmail(email);
+//        if (member == null) {
+//            throw new IllegalStateException();
+//        }
+    // authorization 추가
 
 }
