@@ -8,8 +8,8 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import soongmile.soongmileback.request.SignInRequest;
-import soongmile.soongmileback.request.SignUpRequest;
+import soongmile.soongmileback.domain.request.SignInRequest;
+import soongmile.soongmileback.domain.request.SignUpRequest;
 import soongmile.soongmileback.service.EmailService;
 import soongmile.soongmileback.service.MemberService;
 

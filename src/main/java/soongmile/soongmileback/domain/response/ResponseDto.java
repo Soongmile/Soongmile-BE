@@ -1,4 +1,4 @@
-package soongmile.soongmileback.response;
+package soongmile.soongmileback.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

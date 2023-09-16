@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import soongmile.soongmileback.domain.Member;
-import soongmile.soongmileback.request.QuestionCreateRequest;
+import soongmile.soongmileback.domain.request.QuestionCreateRequest;
 import soongmile.soongmileback.jwt.JwtTokenProvider;
 import soongmile.soongmileback.repository.MemberRepository;
 import soongmile.soongmileback.service.QuestionService;
