@@ -38,13 +38,13 @@ public class MemberController {
     }
 
     @Operation(summary = "회원가입 이메일 검증 - 이메일 인증번호 전송", description = "학교 이메일 인증번호 전송 API")
-    @PostMapping("/emailCode")
+    @PostMapping("/join/sendEmailCode")
     public ResponseDto sendEmailCode(@RequestParam String email) throws Exception {
         return ResponseDto.success("인증 번호를 성공적으로 전송했습니다.", emailService.sendSimpleMessage(email));
     }
 
     @Operation(summary = "회원가입 이메일 검증 - 전송된 인증번호와 매칭", description = "인증번호 매칭 API")
-    @PostMapping("/emailConfirm")
+    @PostMapping("/join/emailConfirm")
     public ResponseDto emailConfirm(@RequestParam String code) throws ChangeSetPersister.NotFoundException {
         try {
             return ResponseDto.success("인증 번호가 일치합니다.", emailService.verifyEmail(code));
