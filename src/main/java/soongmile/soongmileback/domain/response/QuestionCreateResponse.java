@@ -37,5 +37,8 @@ public class QuestionCreateResponse {
     @JsonProperty
     private List<AnswerView> answerList;
 
+    @JsonProperty
+    private List<String> imageUrls;
+
 }
 

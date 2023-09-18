@@ -8,6 +8,7 @@ import soongmile.soongmileback.domain.Field;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter @Setter
 public class QuestionCreateRequest {
@@ -29,6 +30,9 @@ public class QuestionCreateRequest {
     @NotEmpty(message = "하나 이상 태그를 입력해주세요.")
     @JsonProperty
     private String tag;
+
+    @JsonProperty
+    private List<Long> fileIds;
 
 }
 

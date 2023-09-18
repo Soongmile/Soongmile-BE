@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter @Setter
 public class AnswerCreateRequest {
@@ -19,6 +20,9 @@ public class AnswerCreateRequest {
     @Size(max = 800, message = "제목은 최대 800글자까지 입력할 수 있습니다.")
     @JsonProperty
     private String content;
+
+    @JsonProperty
+    private List<Long> fileIds;
 
 }
 
