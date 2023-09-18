@@ -3,7 +3,7 @@ package soongmile.soongmileback.domain;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import soongmile.soongmileback.request.QuestionCreateRequest;
+import soongmile.soongmileback.domain.request.QuestionCreateRequest;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

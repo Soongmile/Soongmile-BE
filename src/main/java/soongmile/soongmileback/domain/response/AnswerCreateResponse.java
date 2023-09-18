@@ -1,5 +1,5 @@
 
-package soongmile.soongmileback.response;
+package soongmile.soongmileback.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -7,20 +7,21 @@ import lombok.Getter;
 import lombok.Setter;
 import soongmile.soongmileback.domain.Field;
 
-import javax.validation.constraints.NotEmpty;
-
 @Getter @Setter
 @Builder
-public class TagView {
+public class AnswerCreateResponse {
 
     @JsonProperty
-    private Long id;
+    private String content;
 
     @JsonProperty
-    private Field field;
+    private Long memberId;
 
     @JsonProperty
-    private String tagName;
+    private Long questionId;
+
+    @JsonProperty
+    private Integer likes;
 
 }
 

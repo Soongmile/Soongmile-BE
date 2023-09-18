@@ -1,5 +1,5 @@
 
-package soongmile.soongmileback.response;
+package soongmile.soongmileback.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

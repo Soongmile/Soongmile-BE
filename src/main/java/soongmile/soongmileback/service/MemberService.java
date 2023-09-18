@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.jwt.JwtTokenProvider;
-import soongmile.soongmileback.request.SignInRequest;
-import soongmile.soongmileback.request.SignUpRequest;
+import soongmile.soongmileback.domain.request.SignInRequest;
+import soongmile.soongmileback.domain.request.SignUpRequest;
 import soongmile.soongmileback.repository.MemberRepository;
 
 @Service

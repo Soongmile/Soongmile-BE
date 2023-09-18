@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.Answer;
 import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.Question;
-import soongmile.soongmileback.request.AnswerCreateRequest;
-import soongmile.soongmileback.response.AnswerCreateResponse;
+import soongmile.soongmileback.domain.request.AnswerCreateRequest;
+import soongmile.soongmileback.domain.response.AnswerCreateResponse;
 import soongmile.soongmileback.repository.AnswerRepository;
 
 @Service
