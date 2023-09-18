@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import soongmile.soongmileback.domain.FileEntity;
 import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.Question;
+import soongmile.soongmileback.domain.QuestionFile;
 import soongmile.soongmileback.domain.request.QuestionCreateRequest;
 import soongmile.soongmileback.domain.response.AnswerView;
 import soongmile.soongmileback.domain.response.QuestionCreateResponse;
@@ -21,18 +23,31 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final QuestionMemberLikeService questionMemberLikeService;
+    private final QuestionFileService questionFileService;
 
     @Transactional
     public void createQuestion(QuestionCreateRequest request) {
         Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Question question = Question.create(request, member);
         questionRepository.save(question);
+
+        for (Long fileId : request.getFileIds()) {
+            FileEntity file = FileEntity.builder()
+                    .id(fileId)
+                    .build();
+
+            questionFileService.create(question, file);
+        }
+
     }
 
     @Transactional
     public QuestionCreateResponse findById(Long id) {
         Question question = questionRepository.findById(id).get();
         question.setHits(question.getHits() + 1);
+
+        List<QuestionFile> byQuestion = questionFileService.findByQuestion(question);
+        List<String> urls = byQuestion.stream().map(QuestionFile::getFileEntity).map(FileEntity::getFilePath).collect(Collectors.toList());
 
         List<AnswerView> collect = question.getAnswers().stream().map(AnswerView::create).collect(Collectors.toList());
 
@@ -46,6 +61,7 @@ public class QuestionService {
                 .hits(question.getHits())
                 .likes(question.getLikes())
                 .answerList(collect)
+                .imageUrls(urls)
                 .build();
     }
 
@@ -76,4 +92,5 @@ public class QuestionService {
     public Question findEntityById(Long id) {
         return questionRepository.findById(id).get();
     }
+
 }

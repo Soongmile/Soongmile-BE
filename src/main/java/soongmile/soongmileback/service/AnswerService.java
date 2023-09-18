@@ -4,12 +4,13 @@ import lombok.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import soongmile.soongmileback.domain.Answer;
-import soongmile.soongmileback.domain.Member;
-import soongmile.soongmileback.domain.Question;
+import soongmile.soongmileback.domain.*;
 import soongmile.soongmileback.domain.request.AnswerCreateRequest;
 import soongmile.soongmileback.domain.response.AnswerCreateResponse;
 import soongmile.soongmileback.repository.AnswerRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +20,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionService questionService;
     private final AnswerMemberLikeService answerMemberLikeService;
+    private final AnswerFileService answerFileService;
 
     public void createAnswer(AnswerCreateRequest request) {
         // 데이터가 올바르게 전달되었는지 확인
@@ -34,16 +36,29 @@ public class AnswerService {
         Answer save = answerRepository.save(answer);
 
         question.getAnswers().add(save);
+
+        for (Long fileId : request.getFileIds()) {
+            FileEntity file = FileEntity.builder()
+                    .id(fileId)
+                    .build();
+
+            answerFileService.create(answer, file);
+        }
+
     }
 
     public AnswerCreateResponse findById(Long id) {
         Answer answer = answerRepository.findById(id).get();
+
+        List<AnswerFile> byAnswer = answerFileService.findByAnswer(answer);
+        List<String> urls = byAnswer.stream().map(AnswerFile::getFileEntity).map(FileEntity::getFilePath).collect(Collectors.toList());
 
         return AnswerCreateResponse
                 .builder()
                 .content(answer.getContent())
                 .memberId(answer.getMember().getId())
                 .questionId(answer.getQuestion().getId())
+                .imageUrls(urls)
                 .build();
     }
 
