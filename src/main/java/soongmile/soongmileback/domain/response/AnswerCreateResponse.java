@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import soongmile.soongmileback.domain.Field;
 
+import java.util.List;
+
 @Getter @Setter
 @Builder
 public class AnswerCreateResponse {
@@ -22,6 +24,9 @@ public class AnswerCreateResponse {
 
     @JsonProperty
     private Integer likes;
+
+    @JsonProperty
+    private List<String> imageUrls;
 
 }
 

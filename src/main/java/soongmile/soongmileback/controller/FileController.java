@@ -16,9 +16,9 @@ import soongmile.soongmileback.service.FileService;
 import java.io.IOException;
 import java.util.List;
 
-@Api(tags = "file", value = "File API")
-@Controller
-@RequestMapping("/user/file")
+//@Api(tags = "file", value = "File API")
+//@Controller
+//@RequestMapping("/user/file")
 @RequiredArgsConstructor
 public class FileController {
 

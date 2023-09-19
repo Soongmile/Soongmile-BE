@@ -11,6 +11,8 @@ import soongmile.soongmileback.repository.FileRepository;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,6 +21,8 @@ public class FileService {
 
     private final ResourceLoader resourceLoader;
     private final FileRepository fileRepository;
+    private final AwsS3UploadService awsS3UploadService;
+
     private static final String path = "/resources/static/files/";
 
     public FileDto saveFile(MultipartFile file) throws IOException {
@@ -55,5 +59,30 @@ public class FileService {
                 .fileName(originalFilename)
                 .filePath(filePath)
                 .build();
+    }
+
+    public FileDto save(MultipartFile multipartFile) throws IOException {
+        String url = awsS3UploadService.save(multipartFile);
+
+        FileEntity fileEntity = FileEntity.builder()
+                .fileName(multipartFile.getOriginalFilename())
+                .filePath(url)
+                .build();
+
+        FileEntity save = fileRepository.save(fileEntity);
+        return FileDto.builder()
+                .fileName(save.getFileName())
+                .filePath(save.getFilePath())
+                .id(save.getId())
+                .build();
+    }
+
+    public List<FileDto> save(List<MultipartFile> multipartFile) throws IOException {
+       List<FileDto> fileDtoList = new ArrayList<>();
+        for (MultipartFile file : multipartFile) {
+            fileDtoList.add(save(file));
+        }
+
+        return fileDtoList;
     }
 }
