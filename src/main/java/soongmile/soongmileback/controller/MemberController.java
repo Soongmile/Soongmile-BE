@@ -5,11 +5,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.security.core.parameters.P;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import soongmile.soongmileback.domain.request.SignInRequest;
 import soongmile.soongmileback.domain.request.SignUpRequest;
+import soongmile.soongmileback.domain.response.ResponseDto;
 import soongmile.soongmileback.service.EmailService;
 import soongmile.soongmileback.service.MemberService;
 
@@ -27,49 +28,42 @@ public class MemberController {
 
     @Operation(summary = "회원가입", description = "회원가입 API")
     @PostMapping("/join")
-    public String join(@RequestBody @Valid SignUpRequest signUpRequest) {
+    public ResponseDto join(@RequestBody @Valid SignUpRequest signUpRequest) {
         try {
             memberService.create(signUpRequest);
-            return "redirect:/";
+            return ResponseDto.success("redirect:/");
         } catch (RuntimeException e) {
-            return "/join";
+            return ResponseDto.fail(HttpStatus.BAD_REQUEST, "회원가입에 실패했습니다.");
         }
     }
 
-    // 회원가입 - 이메일 인증번호 전송
-    @Operation(summary = "회원가입 중 학교 이메일 인증번호 전송", description = "학교 이메일 인증번호 전송 API")
-    @PostMapping("/emailCode")
-    public String sendEmailCode(@RequestParam String email) throws Exception {
-        return emailService.sendSimpleMessage(email);
+    @Operation(summary = "회원가입 이메일 검증 - 이메일 인증번호 전송", description = "학교 이메일 인증번호 전송 API")
+    @PostMapping("/join/sendEmailCode")
+    public ResponseDto sendEmailCode(@RequestParam String email) throws Exception {
+        return ResponseDto.success("인증 번호를 성공적으로 전송했습니다.", emailService.sendSimpleMessage(email));
     }
 
-    // 회원가입 - 이메일 인증번호 매칭
-    @Operation(summary = "전송된 인증번호와 매칭", description = "인증번호 매칭 API")
-    @PostMapping("/emailConfirm")
-    public String emailConfirm(@RequestParam String code) throws ChangeSetPersister.NotFoundException {
+    @Operation(summary = "회원가입 이메일 검증 - 전송된 인증번호와 매칭", description = "인증번호 매칭 API")
+    @PostMapping("/join/emailConfirm")
+    public ResponseDto emailConfirm(@RequestParam String code) throws ChangeSetPersister.NotFoundException {
         try {
-            return emailService.verifyEmail(code);
+            return ResponseDto.success("인증 번호가 일치합니다.", emailService.verifyEmail(code));
         } catch (ChangeSetPersister.NotFoundException e) {
-            return "유효하지 않은 인증번호입니다.";
+            return ResponseDto.fail(HttpStatus.BAD_REQUEST, "유효하지 않은 인증번호입니다.");
         }
     }
 
-
-    // 로그인
     @Operation(summary = "로그인", description = "로그인 API")
     @PostMapping("/login")
-    public String login(@RequestBody SignInRequest signInRequest) {
+    public ResponseDto login(@RequestBody SignInRequest signInRequest) {
         try {
-            return memberService.login(signInRequest);
+            return ResponseDto.success("로그인에 성공했습니다.", memberService.login(signInRequest));
         } catch (UsernameNotFoundException e) {
-            return "사용자가 존재하지 않습니다.";
-            // return ResponseDto.fail(HttpStatus.N, "사용자가 존재하지 않습니다.");
+            return ResponseDto.fail(HttpStatus.BAD_REQUEST, "사용자가 존재하지 않습니다.");
         } catch (IllegalStateException e) {
-            return "비밀번호 틀림 ㅋ";
-            // return new BaseResponse<>(INVALID_PASSWORD);
+            return ResponseDto.fail(HttpStatus.BAD_REQUEST, "비밀번호가 틀립니다.");
         } catch (Exception e) {
-            return "걍 안돼 ㅠ";
-            // return new BaseResponse<>(LOGIN_ERROR);
+            return ResponseDto.fail(HttpStatus.INTERNAL_SERVER_ERROR, "오류가 발생했습니다.");
         }
     }
 }
