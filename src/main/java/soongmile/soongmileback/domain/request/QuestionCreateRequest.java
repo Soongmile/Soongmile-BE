@@ -25,11 +25,11 @@ public class QuestionCreateRequest {
 
     @NotEmpty(message = "분야를 선택해주세요.")
     @JsonProperty
-    private Field field;
+    private List<Field> field;
 
     @NotEmpty(message = "하나 이상 태그를 입력해주세요.")
     @JsonProperty
-    private String tag;
+    private List<String> tag;
 
     @JsonProperty
     private List<Long> fileIds;
