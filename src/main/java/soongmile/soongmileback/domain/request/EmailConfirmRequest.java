@@ -1,4 +1,4 @@
-package soongmile.soongmileback.request;
+package soongmile.soongmileback.domain.request;
 
 import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
