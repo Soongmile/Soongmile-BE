@@ -3,6 +3,11 @@ package soongmile.soongmileback.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -20,4 +25,7 @@ public class FileEntity {
     private String fileName;
 
     private String filePath;
+
+    @OneToMany(mappedBy = "fileEntity", cascade = ALL, fetch = LAZY)
+    List<QuestionFile> questionFiles = new ArrayList<>();
 }
