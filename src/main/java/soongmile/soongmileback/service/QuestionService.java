@@ -28,6 +28,18 @@ public class QuestionService {
     private final QuestionFileService questionFileService;
 
     @Transactional
+    public List<QuestionViewResponse> getMainPage(int page, int size) {
+        List<QuestionViewResponse> ret = new ArrayList<>();
+        List<Question> questions = questionRepository.findAll();
+        for (int i = (page - 1) * size; i < page * size; i++) {
+            if (i >= questions.size())
+                break;
+            ret.add(new QuestionViewResponse(questions.get(i).getTitle(), questions.get(i).getContent(), questions.get(i).getTag(), questions.get(i).getField(), questions.get(i).getPostTime(), questions.get(i).getHits(), questions.get(i).getAnswers().size()));
+        }
+        return ret;
+    }
+
+    @Transactional
     public void createQuestion(QuestionCreateRequest request) {
         Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Question question = Question.create(request, member);
@@ -47,7 +59,7 @@ public class QuestionService {
     public List<QuestionViewResponse> showQuestions(Member member) {
         List<QuestionViewResponse> ret = new ArrayList<>();
         for (Question question : member.getQuestions()) {
-            ret.add(new QuestionViewResponse(question.getTitle(), question.getContent(), question.getTag(), question.getField(), "0", question.getHits(), question.getAnswers().size()));
+            ret.add(new QuestionViewResponse(question.getTitle(), question.getContent(), question.getTag(), question.getField(), question.getPostTime(), question.getHits(), question.getAnswers().size()));
         }
         return ret;
     }
