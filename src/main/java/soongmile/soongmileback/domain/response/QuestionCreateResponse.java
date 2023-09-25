@@ -20,10 +20,10 @@ public class QuestionCreateResponse {
     private String content;
 
     @JsonProperty
-    private Field field;
+    private List<Field> field;
 
     @JsonProperty
-    private String tag;
+    private List<String> tag;
 
     @JsonProperty
     private Long memberId;

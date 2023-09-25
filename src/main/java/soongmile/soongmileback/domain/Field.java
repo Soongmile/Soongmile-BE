@@ -1,5 +1,5 @@
 package soongmile.soongmileback.domain;
 
 public enum Field {
-    DESIGN, PRODUCT_MANAGER, BACKEND, FRONTEND, MOBILE
+    DESIGN, PRODUCT_MANAGER, BACKEND, FRONTEND, MOBILE, SCHOOL
 }

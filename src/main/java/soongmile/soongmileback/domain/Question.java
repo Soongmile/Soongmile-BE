@@ -59,13 +59,15 @@ public class Question {
     private Integer likes;
 
     // 분야
+    @ElementCollection
     @Enumerated(STRING)
     @Column(name = "field", nullable = false)
-    private Field field;
+    private List<Field> field;
 
     // 태그
+    @ElementCollection
     @Column(name = "tag", nullable = false)
-    private String tag;
+    private List<String> tag;
 
     // 답변
     @OneToMany(mappedBy = "question", cascade = ALL, fetch = LAZY)
