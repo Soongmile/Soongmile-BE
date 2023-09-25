@@ -11,8 +11,10 @@ import soongmile.soongmileback.domain.QuestionFile;
 import soongmile.soongmileback.domain.request.QuestionCreateRequest;
 import soongmile.soongmileback.domain.response.AnswerView;
 import soongmile.soongmileback.domain.response.QuestionCreateResponse;
+import soongmile.soongmileback.domain.response.QuestionViewResponse;
 import soongmile.soongmileback.repository.QuestionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +41,15 @@ public class QuestionService {
             questionFileService.create(question, file);
         }
 
+    }
+
+    @Transactional
+    public List<QuestionViewResponse> showQuestions(Member member) {
+        List<QuestionViewResponse> ret = new ArrayList<>();
+        for (Question question : member.getQuestions()) {
+            ret.add(new QuestionViewResponse(question.getTitle(), question.getContent(), question.getTag(), question.getField(), "0", question.getHits(), question.getAnswers().size()));
+        }
+        return ret;
     }
 
     @Transactional
@@ -92,5 +103,4 @@ public class QuestionService {
     public Question findEntityById(Long id) {
         return questionRepository.findById(id).get();
     }
-
 }

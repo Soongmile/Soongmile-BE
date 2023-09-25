@@ -62,12 +62,12 @@ public class Question {
     @ElementCollection
     @Enumerated(STRING)
     @Column(name = "field", nullable = false)
-    private List<Field> field;
+    private List<Field> field = new ArrayList<>();
 
     // 태그
     @ElementCollection
     @Column(name = "tag", nullable = false)
-    private List<String> tag;
+    private List<String> tag = new ArrayList<>();
 
     // 답변
     @OneToMany(mappedBy = "question", cascade = ALL, fetch = LAZY)
@@ -77,6 +77,7 @@ public class Question {
         return Question.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
+                .postTime(LocalDateTime.now())
                 .field(request.getField())
                 .tag(request.getTag())
                 .member(member)

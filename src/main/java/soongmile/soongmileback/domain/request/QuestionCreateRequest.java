@@ -4,6 +4,7 @@ package soongmile.soongmileback.domain.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import reactor.util.annotation.Nullable;
 import soongmile.soongmileback.domain.Field;
 
 import javax.validation.constraints.NotEmpty;
@@ -32,6 +33,7 @@ public class QuestionCreateRequest {
     private List<String> tag;
 
     @JsonProperty
+    @Nullable
     private List<Long> fileIds;
 
 }
