@@ -40,14 +40,19 @@ public class MemberController {
     @Operation(summary = "회원가입 이메일 검증 - 이메일 인증번호 전송", description = "학교 이메일 인증번호 전송 API")
     @PostMapping("/join/sendEmailCode")
     public ResponseDto sendEmailCode(@RequestParam String email) throws Exception {
-        return ResponseDto.success("인증 번호를 성공적으로 전송했습니다.", emailService.sendSimpleMessage(email));
+        try {
+            return ResponseDto.success("인증 번호를 성공적으로 전송했습니다.", emailService.sendSimpleMessage(emailService.verifyValidEmail(email)));
+        } catch (IllegalStateException e) {
+            return ResponseDto.fail(HttpStatus.BAD_REQUEST, "유효하지 않은 이메일입니다.");
+        }
     }
 
     @Operation(summary = "회원가입 이메일 검증 - 전송된 인증번호와 매칭", description = "인증번호 매칭 API")
     @PostMapping("/join/emailConfirm")
     public ResponseDto emailConfirm(@RequestParam String code) throws ChangeSetPersister.NotFoundException {
         try {
-            return ResponseDto.success("인증 번호가 일치합니다.", emailService.verifyEmail(code));
+            emailService.verifyEmail(code);
+            return ResponseDto.success("인증 번호가 일치합니다.");
         } catch (ChangeSetPersister.NotFoundException e) {
             return ResponseDto.fail(HttpStatus.BAD_REQUEST, "유효하지 않은 인증번호입니다.");
         }
