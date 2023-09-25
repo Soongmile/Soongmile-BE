@@ -19,17 +19,27 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
 
-    public static final String ePw = createKey();
+    private static final String EMAIL_FORM = "@soongsil.ac.kr";
+    private static final int EMAIL_LIMIT = 16;
+    private static final int EMAIL_FORM_LENGTH = 15;
 
-    private MimeMessage createMessage(String email) throws Exception {
+    public String verifyValidEmail(String email) {
+        int length = email.length();
+        if (length <= EMAIL_LIMIT || !email.substring(length - EMAIL_FORM_LENGTH, length).equals(EMAIL_FORM)) {
+            throw new IllegalStateException();
+        }
+        return email;
+    }
+
+    private MimeMessage createMessage(String email, String verificationCode) throws Exception {
         System.out.println("보내는 대상 : " + email);
-        System.out.println("인증 번호 : " + ePw);
+        System.out.println("인증 번호 : " + verificationCode);
         MimeMessage message = emailSender.createMimeMessage();
 
         message.addRecipients(Message.RecipientType.TO, email); //보내는 대상
         message.setSubject("이메일 인증 테스트"); // 제목
 
-        String msgg = createMessage();
+        String msgg = createMessage(verificationCode);
 
         message.setText(msgg, "utf-8", "html");//내용
         message.setFrom(new InternetAddress("soongmile@gmail.com","soongmile")); // 보내는 사람
@@ -37,7 +47,7 @@ public class EmailService {
         return message;
     }
 
-    private String createMessage() {
+    private String createMessage(String verificationCode) {
         String msgg="";
         msgg+= "<div style='margin:20px;'>";
         msgg+= "<h1> 안녕하세요 숭차로입니다. </h1>";
@@ -50,54 +60,34 @@ public class EmailService {
         msgg+= "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
         msgg+= "<div style='font-size:130%'>";
         msgg+= "CODE : <strong>";
-        msgg+= ePw+"</strong><div><br/> ";
+        msgg+= verificationCode+"</strong><div><br/> ";
         msgg+= "</div>";
         return msgg;
     }
 
     public static String createKey() {
-        StringBuffer key = new StringBuffer();
-        Random rnd = new Random();
-
-        for (int i = 0; i < 8; i++) { // 인증코드 8자리
-            int index = rnd.nextInt(3); // 0~2 까지 랜덤
-
-            switch (index) {
-                case 0:
-                    key.append((char) ((rnd.nextInt(26)) + 97));
-                    //  a~z  (ex. 1+97=98 => (char)98 = 'b')
-                    break;
-                case 1:
-                    key.append((char) ((rnd.nextInt(26)) + 65));
-                    //  A~Z
-                    break;
-                case 2:
-                    key.append((rnd.nextInt(10)));
-                    // 0~9
-                    break;
-            }
-        }
-        return key.toString();
+        Random rand = new Random();
+        return String.valueOf((rand.nextInt(9000) + 1000));
     }
 
     public String sendSimpleMessage(String email) throws Exception {
-        MimeMessage message = createMessage(email);
+        String verificationCode = createKey();
+        MimeMessage message = createMessage(email, verificationCode);
         try {
-            redisUtil.setDataExpire(ePw, email, 60 * 5L); // 유효시간 5분
+            redisUtil.setDataExpire(verificationCode, email, 60 * 5L); // 유효시간 5분
             emailSender.send(message);
         } catch (MailException es){
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
-        return ePw;
+        return verificationCode;
     }
 
-    public String verifyEmail(String code) throws ChangeSetPersister.NotFoundException {
+    public void verifyEmail(String code) throws ChangeSetPersister.NotFoundException {
         String memberEmail = redisUtil.getData(code);
         if (memberEmail == null) {
             throw new ChangeSetPersister.NotFoundException();
         }
         redisUtil.deleteData(code);
-        return ePw;
     }
 }
