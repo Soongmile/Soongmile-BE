@@ -37,11 +37,8 @@ dependencies {
 //	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-
-	// mail
+	//마크다운
+	implementation 'com.atlassian.commonmark:commonmark:0.15.2'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-
-	// redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 }
