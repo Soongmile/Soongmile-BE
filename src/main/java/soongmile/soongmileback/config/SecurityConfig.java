@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/user/join", "/user/login", "/user/emailConfirm").permitAll()
+                .antMatchers("/user/join/**", "/user/login", "/user/emailConfirm", "/user/emailCode").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/user/**").authenticated()
                 .antMatchers("/test").authenticated()
@@ -38,33 +38,9 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용하는 경우에 씀
                 .and()
-                /*.formLogin()
-                .loginPage("/user/login")           // 로그인 페이지의 URL
-                .defaultSuccessUrl("/")         // 로그인 성공시에 이동하는 디폴트 페이지는 루트 URL
-                .usernameParameter("email")
-                .and()*/
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class)
                 .build();
-        /*
-        http
-                .csrf((csrf) -> csrf
-                        .ignoringRequestMatchers(new AntPathRequestMatcher("/**")))
-                .headers((headers) -> headers
-                        .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
-                .authorizeRequests()
-                        .antMatchers("/user/question/write").authenticated() // 로그인한 사용자만 질문글 작성 가능
-                        .anyRequest().permitAll() // 나머지 요청은 모두 허용
-                        .and()
-                .formLogin((formLogin) -> formLogin         // .formLogin -> 스프링 시큐리티의 로그인 설정을 담당하는 부분
-                        .loginPage("/user/login")           // 로그인 페이지의 URL
-                        .defaultSuccessUrl("/")         // 로그인 성공시에 이동하는 디폴트 페이지는 루트 URL
-                        .usernameParameter("email"))
-                .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
-        return http.build();*/
     }
 
     @Bean

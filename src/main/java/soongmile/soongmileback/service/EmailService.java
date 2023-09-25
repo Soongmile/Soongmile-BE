@@ -1,9 +1,11 @@
 package soongmile.soongmileback.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import soongmile.soongmileback.util.RedisUtil;
 
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
@@ -15,6 +17,7 @@ import java.util.Random;
 public class EmailService {
 
     private final JavaMailSender emailSender;
+    private final RedisUtil redisUtil;
 
     public static final String ePw = createKey();
 
@@ -61,11 +64,11 @@ public class EmailService {
 
             switch (index) {
                 case 0:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    key.append((char) ((rnd.nextInt(26)) + 97));
                     //  a~z  (ex. 1+97=98 => (char)98 = 'b')
                     break;
                 case 1:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
+                    key.append((char) ((rnd.nextInt(26)) + 65));
                     //  A~Z
                     break;
                 case 2:
@@ -77,15 +80,24 @@ public class EmailService {
         return key.toString();
     }
 
-    public String sendSimpleMessage (String email) throws Exception {
+    public String sendSimpleMessage(String email) throws Exception {
         MimeMessage message = createMessage(email);
-
         try {
+            redisUtil.setDataExpire(ePw, email, 60 * 5L); // 유효시간 5분
             emailSender.send(message);
         } catch (MailException es){
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
+        return ePw;
+    }
+
+    public String verifyEmail(String code) throws ChangeSetPersister.NotFoundException {
+        String memberEmail = redisUtil.getData(code);
+        if (memberEmail == null) {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        redisUtil.deleteData(code);
         return ePw;
     }
 }

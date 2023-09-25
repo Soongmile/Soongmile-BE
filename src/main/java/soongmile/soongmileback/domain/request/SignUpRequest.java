@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -21,7 +22,7 @@ public class SignUpRequest {
     @JsonProperty
     private String password;
 
-    @NotEmpty(message = "비밀번호 확인은 필수항목입니다.")
+    @NotBlank(message = "비밀번호 확인은 필수항목입니다.")
     @JsonProperty
     private String passwordchecker;
 
