@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class QuestionViewResponse {
 
+    private Long id;
     private String title;
     private String content;
     private List<String> tags;
@@ -17,7 +18,8 @@ public class QuestionViewResponse {
     private int hits;
     private int answerCount;
 
-    public QuestionViewResponse(String title, String content, List<String> tags, List<Field> fields, LocalDateTime postTime, int hits, int answerCount) {
+    public QuestionViewResponse(Long id, String title, String content, List<String> tags, List<Field> fields, LocalDateTime postTime, int hits, int answerCount) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.tags = tags;
