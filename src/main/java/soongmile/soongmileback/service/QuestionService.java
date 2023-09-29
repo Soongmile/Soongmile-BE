@@ -34,7 +34,19 @@ public class QuestionService {
         for (int i = (page - 1) * size; i < page * size; i++) {
             if (i >= questions.size())
                 break;
-            ret.add(new QuestionViewResponse(questions.get(i).getTitle(), questions.get(i).getContent(), questions.get(i).getTag(), questions.get(i).getField(), questions.get(i).getPostTime(), questions.get(i).getHits(), questions.get(i).getAnswers().size()));
+            ret.add(new QuestionViewResponse(questions.get(i).getId(), questions.get(i).getTitle(), questions.get(i).getContent(), questions.get(i).getTag(), questions.get(i).getField(), questions.get(i).getPostTime(), questions.get(i).getHits(), questions.get(i).getAnswers().size()));
+        }
+        return ret;
+    }
+
+    @Transactional
+    public List<QuestionViewResponse> search(String keyword, int page, int size) {
+        List<QuestionViewResponse> ret = new ArrayList<>();
+        List<Question> questions = questionRepository.findByTitleContaining(keyword);
+        for (int i = (page - 1) * size; i < page * size; i++) {
+            if (i >= questions.size())
+                break;
+            ret.add(new QuestionViewResponse(questions.get(i).getId(), questions.get(i).getTitle(), questions.get(i).getContent(), questions.get(i).getTag(), questions.get(i).getField(), questions.get(i).getPostTime(), questions.get(i).getHits(), questions.get(i).getAnswers().size()));
         }
         return ret;
     }
@@ -59,7 +71,7 @@ public class QuestionService {
     public List<QuestionViewResponse> showQuestions(Member member) {
         List<QuestionViewResponse> ret = new ArrayList<>();
         for (Question question : member.getQuestions()) {
-            ret.add(new QuestionViewResponse(question.getTitle(), question.getContent(), question.getTag(), question.getField(), question.getPostTime(), question.getHits(), question.getAnswers().size()));
+            ret.add(new QuestionViewResponse(question.getId(), question.getTitle(), question.getContent(), question.getTag(), question.getField(), question.getPostTime(), question.getHits(), question.getAnswers().size()));
         }
         return ret;
     }
