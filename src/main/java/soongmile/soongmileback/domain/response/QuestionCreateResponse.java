@@ -29,6 +29,9 @@ public class QuestionCreateResponse {
     private Long memberId;
 
     @JsonProperty
+    private String memberName;
+
+    @JsonProperty
     private Integer hits;
 
     @JsonProperty
