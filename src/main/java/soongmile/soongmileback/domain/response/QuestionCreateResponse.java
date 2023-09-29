@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import soongmile.soongmileback.domain.Field;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter
@@ -26,7 +27,13 @@ public class QuestionCreateResponse {
     private List<String> tag;
 
     @JsonProperty
+    private LocalDateTime postTime;
+
+    @JsonProperty
     private Long memberId;
+
+    @JsonProperty
+    private String memberName;
 
     @JsonProperty
     private Integer hits;
