@@ -14,6 +14,7 @@ import soongmile.soongmileback.domain.response.QuestionCreateResponse;
 import soongmile.soongmileback.domain.response.QuestionViewResponse;
 import soongmile.soongmileback.repository.QuestionRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,6 +92,7 @@ public class QuestionService {
                 .title(question.getTitle())
                 .content(question.getContent())
                 .tag(question.getTag())
+                .postTime(LocalDateTime.now())
                 .field(question.getField())
                 .memberId(question.getMember().getId())
                 .memberName(question.getMember().getMemberName())
@@ -117,6 +119,7 @@ public class QuestionService {
                 .title(question.getTitle())
                 .content(question.getContent())
                 .tag(question.getTag())
+                .postTime(LocalDateTime.now())
                 .field(question.getField())
                 .memberId(question.getMember().getId())
                 .memberName(question.getMember().getMemberName())
