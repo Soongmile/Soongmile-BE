@@ -60,6 +60,7 @@ public class Answer {
     public static Answer create(AnswerCreateRequest request, Question question, Member member) {
         return Answer.builder()
                 .content(request.getContent())
+                .postTime(LocalDateTime.now())
                 .likes(0)
                 .member(member)
                 .question(question)
