@@ -29,24 +29,20 @@ public class QuestionService {
     private final QuestionFileService questionFileService;
 
     @Transactional
-    public List<QuestionViewResponse> getMainPage(int page, int size) {
+    public List<QuestionViewResponse> getMainPage() {
         List<QuestionViewResponse> ret = new ArrayList<>();
         List<Question> questions = questionRepository.findAll();
-        for (int i = (page - 1) * size; i < page * size; i++) {
-            if (i >= questions.size())
-                break;
+        for (int i = 0; i < questions.size(); i++) {
             ret.add(new QuestionViewResponse(questions.get(i).getId(), questions.get(i).getTitle(), questions.get(i).getContent(), questions.get(i).getTag(), questions.get(i).getField(), questions.get(i).getPostTime(), questions.get(i).getHits(), questions.get(i).getAnswers().size()));
         }
         return ret;
     }
 
     @Transactional
-    public List<QuestionViewResponse> search(String keyword, int page, int size) {
+    public List<QuestionViewResponse> search(String keyword) {
         List<QuestionViewResponse> ret = new ArrayList<>();
         List<Question> questions = questionRepository.findByTitleContaining(keyword);
-        for (int i = (page - 1) * size; i < page * size; i++) {
-            if (i >= questions.size())
-                break;
+        for (int i = 0; i < questions.size(); i++) {
             ret.add(new QuestionViewResponse(questions.get(i).getId(), questions.get(i).getTitle(), questions.get(i).getContent(), questions.get(i).getTag(), questions.get(i).getField(), questions.get(i).getPostTime(), questions.get(i).getHits(), questions.get(i).getAnswers().size()));
         }
         return ret;
