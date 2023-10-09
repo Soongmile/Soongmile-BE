@@ -43,4 +43,13 @@ public class AnswerMemberLikeService {
 
         answerMemberLikeRepository.save(answerMemberLike);
     }
+
+    @Transactional
+    public void delete(Long answerId, Long memberId) {
+        AnswerMemberLike answerMemberLike = answerMemberLikeRepository.findByAnswerIdAndMemberId(answerId, memberId);
+
+        if (answerMemberLike != null) {
+            answerMemberLikeRepository.delete(answerMemberLike);
+        }
+    }
 }
