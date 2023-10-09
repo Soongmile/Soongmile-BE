@@ -125,6 +125,34 @@ public class QuestionService {
                 .build();
     }
 
+    @Transactional
+    public QuestionCreateResponse unlikeById(Long id) {
+        Question question = questionRepository.findById(id).get();
+
+        Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (questionMemberLikeService.exists(question.getId(), member.getId())) {
+            question.setLikes(question.getLikes() - 1);
+            questionMemberLikeService.delete(question.getId(), member.getId());
+        }
+
+        List<AnswerView> collect = question.getAnswers().stream().map(AnswerView::create).collect(Collectors.toList());
+
+        return QuestionCreateResponse
+                .builder()
+                .title(question.getTitle())
+                .content(question.getContent())
+                .tag(question.getTag())
+                .postTime(question.getPostTime())
+                .field(question.getField())
+                .memberId(question.getMember().getId())
+                .memberName(question.getMember().getMemberName())
+                .hits(question.getHits())
+                .likes(question.getLikes())
+                .answerList(collect)
+                .build();
+    }
+
     public Question findEntityById(Long id) {
         return questionRepository.findById(id).get();
     }

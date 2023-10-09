@@ -20,6 +20,9 @@ public class AnswerCreateResponse {
     private Long memberId;
 
     @JsonProperty
+    private String memberName;
+
+    @JsonProperty
     private Long questionId;
 
     @JsonProperty

@@ -71,4 +71,16 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.likeById(id));
     }
 
+    @Operation(summary = "질문 좋아요 취소", description = "질문 좋아요 취소 API")
+    @PutMapping("/unlike/{id}")
+    public ResponseEntity unlike(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable Long id) {
+        String email = jwtTokenProvider.getUserPk(token);
+        Member member = memberRepository.findByEmail(email);
+        if (member == null) {
+            throw new IllegalStateException();
+        }
+        return ResponseEntity.ok(questionService.unlikeById(id));
+    }
+
+
 }
