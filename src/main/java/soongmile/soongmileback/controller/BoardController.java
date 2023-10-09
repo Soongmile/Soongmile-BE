@@ -22,13 +22,13 @@ public class BoardController {
 
     @Operation(summary = "메인 화면", description = "메인 화면 API")
     @PostMapping
-    public ResponseDto showMainPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "12") int size) {
-        return ResponseDto.success("페이지와 사이즈에 맞는 질문글들을 반환합니다.", questionService.getMainPage(page, size));
+    public ResponseDto showMainPage() {
+        return ResponseDto.success("페이지와 사이즈에 맞는 질문글들을 반환합니다.", questionService.getMainPage());
     }
 
     @Operation(summary = "검색 기능", description = "검색 기능 API")
     @PostMapping("/search")
-    public ResponseDto search(@RequestParam String keyword, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "12") int size) {
-        return ResponseDto.success("키워드를 포함하는 제목의 질문글을 반환합니다.", questionService.search(keyword, page, size));
+    public ResponseDto search(@RequestParam String keyword) {
+        return ResponseDto.success("키워드를 포함하는 제목의 질문글을 반환합니다.", questionService.search(keyword));
     }
 }

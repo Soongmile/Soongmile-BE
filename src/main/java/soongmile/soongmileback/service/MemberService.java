@@ -27,6 +27,10 @@ public class MemberService {
         if (!signUpRequest.getPassword().equals(signUpRequest.getPasswordchecker())) {
             throw new RuntimeException();
         }
+        Member findMember = memberRepository.findByEmail(signUpRequest.getEmail());
+        if (findMember != null) {
+            throw new RuntimeException();
+        }
         Member member = new Member(signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getMembername());
         memberRepository.save(member);
         return member.getId();
