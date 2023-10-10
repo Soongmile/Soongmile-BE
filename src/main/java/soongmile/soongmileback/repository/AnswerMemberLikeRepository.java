@@ -6,4 +6,5 @@ import soongmile.soongmileback.domain.*;
 public interface AnswerMemberLikeRepository extends JpaRepository<AnswerMemberLike, Long> {
 
     boolean existsByAnswerAndMember(Answer answer, Member member);
+    AnswerMemberLike findByAnswerIdAndMemberId(Long answerId, Long memberId);
 }

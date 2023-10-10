@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.*;
 import soongmile.soongmileback.domain.request.AnswerCreateRequest;
 import soongmile.soongmileback.domain.response.AnswerCreateResponse;
+import soongmile.soongmileback.domain.response.AnswerView;
+import soongmile.soongmileback.domain.response.QuestionCreateResponse;
 import soongmile.soongmileback.repository.AnswerRepository;
 
 import java.util.List;
@@ -57,6 +59,7 @@ public class AnswerService {
                 .builder()
                 .content(answer.getContent())
                 .memberId(answer.getMember().getId())
+                .memberName(answer.getMember().getMemberName())
                 .questionId(answer.getQuestion().getId())
                 .imageUrls(urls)
                 .build();
@@ -76,6 +79,27 @@ public class AnswerService {
                 .builder()
                 .content(answer.getContent())
                 .memberId(answer.getMember().getId())
+                .memberName(answer.getMember().getMemberName())
+                .questionId(answer.getQuestion().getId())
+                .likes(answer.getLikes())
+                .build();
+    }
+
+    @Transactional
+    public AnswerCreateResponse unlikeById(Long id) {
+        Answer answer = answerRepository.findById(id).get();
+        Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!answerMemberLikeService.exists(answer.getId(), member.getId())){
+            answer.setLikes(answer.getLikes() - 1);
+            answerMemberLikeService.delete(answer.getId(), member.getId());
+        }
+
+        return AnswerCreateResponse
+                .builder()
+                .content(answer.getContent())
+                .memberId(answer.getMember().getId())
+                .memberName(answer.getMember().getMemberName())
                 .questionId(answer.getQuestion().getId())
                 .likes(answer.getLikes())
                 .build();
