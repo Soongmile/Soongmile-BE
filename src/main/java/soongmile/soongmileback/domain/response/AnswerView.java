@@ -22,6 +22,8 @@ public class AnswerView {
 
     private Long memberId; //user_id
 
+    private String memberName;
+
     // 좋아요
     private Integer likes;
 
@@ -31,6 +33,7 @@ public class AnswerView {
                 .content(request.getContent())
                 .postTime(request.getPostTime())
                 .memberId(request.getMember().getId())
+                .memberName(request.getMember().getMemberName())
                 .likes(request.getLikes())
                 .build();
     }

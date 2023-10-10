@@ -47,5 +47,8 @@ public class QuestionCreateResponse {
     @JsonProperty
     private List<String> imageUrls;
 
+    @JsonProperty
+    private Boolean isLikeMe;
+
 }
 
