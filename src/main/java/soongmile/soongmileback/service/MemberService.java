@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.Member;
+import soongmile.soongmileback.domain.response.SignInResponse;
 import soongmile.soongmileback.jwt.JwtTokenProvider;
 import soongmile.soongmileback.domain.request.SignInRequest;
 import soongmile.soongmileback.domain.request.SignUpRequest;
@@ -37,7 +38,7 @@ public class MemberService {
     }
 
     @Transactional
-    public String login(SignInRequest signInRequest) {
+    public SignInResponse login(SignInRequest signInRequest) {
         Member member = memberRepository.findByEmail(signInRequest.getEmail());
 
         if (member == null) {
@@ -49,6 +50,6 @@ public class MemberService {
         }
 
         String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
-        return token;
+        return new SignInResponse(token, member.getMemberName());
     }
 }
