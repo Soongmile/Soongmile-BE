@@ -1,8 +1,11 @@
-package soongmile.soongmileback.domain;
+package soongmile.soongmileback.domain.response;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import soongmile.soongmileback.domain.Answer;
+import soongmile.soongmileback.domain.Field;
+import soongmile.soongmileback.domain.Member;
 import soongmile.soongmileback.domain.request.QuestionCreateRequest;
 
 import javax.persistence.*;

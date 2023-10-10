@@ -14,7 +14,6 @@ import soongmile.soongmileback.domain.response.QuestionCreateResponse;
 import soongmile.soongmileback.domain.response.QuestionViewResponse;
 import soongmile.soongmileback.repository.QuestionRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -100,7 +99,7 @@ public class QuestionService {
     }
 
     @Transactional
-    public QuestionCreateResponse findById(Long id) {
+    public QuestionCreateResponse findById(Long id, Member member) {
         Question question = questionRepository.findById(id).get();
         question.setHits(question.getHits() + 1);
 
@@ -108,6 +107,11 @@ public class QuestionService {
         List<String> urls = byQuestion.stream().map(QuestionFile::getFileEntity).map(FileEntity::getFilePath).collect(Collectors.toList());
 
         List<AnswerView> collect = question.getAnswers().stream().map(AnswerView::create).collect(Collectors.toList());
+
+        boolean isLikeMe = false;
+        if (member != null) {
+             isLikeMe = questionMemberLikeService.exists(question.getId(), member.getId());
+        }
 
         return QuestionCreateResponse
                 .builder()
@@ -122,6 +126,7 @@ public class QuestionService {
                 .likes(question.getLikes())
                 .answerList(collect)
                 .imageUrls(urls)
+                .isLikeMe(isLikeMe)
                 .build();
     }
 

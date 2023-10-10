@@ -56,13 +56,18 @@ public class QuestionController {
 
     @Operation(summary = "질문 조회", description = "질문 조회 API")
     @GetMapping("/{id}")
-    public ResponseEntity findById(@PathVariable Long id) {
-        return ResponseEntity.ok(questionService.findById(id));
+    public ResponseEntity findById(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable Long id) {
+        Member member = null;
+        if (token != null) {
+            String email = jwtTokenProvider.getUserPk(token);
+            member = memberRepository.findByEmail(email);
+        }
+        return ResponseEntity.ok(questionService.findById(id, member));
     }
 
     @Operation(summary = "질문 좋아요", description = "질문 좋아요 API")
     @PutMapping("/like/{id}")
-    public ResponseEntity like(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable Long id) {
+    public ResponseEntity like(@RequestHeader(value = "Authorization") String token, @PathVariable Long id) {
         String email = jwtTokenProvider.getUserPk(token);
         Member member = memberRepository.findByEmail(email);
         if (member == null) {

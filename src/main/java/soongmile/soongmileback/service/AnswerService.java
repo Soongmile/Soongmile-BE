@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import soongmile.soongmileback.domain.*;
+import soongmile.soongmileback.domain.Question;
 import soongmile.soongmileback.domain.request.AnswerCreateRequest;
 import soongmile.soongmileback.domain.response.AnswerCreateResponse;
 import soongmile.soongmileback.domain.response.AnswerView;
