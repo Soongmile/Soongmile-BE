@@ -39,11 +39,37 @@ public class QuestionService {
     }
 
     @Transactional
-    public List<QuestionViewResponse> search(String keyword) {
+    public List<QuestionViewResponse> searchTitle(String keyword) {
         List<QuestionViewResponse> ret = new ArrayList<>();
         List<Question> questions = questionRepository.findByTitleContaining(keyword);
         for (int i = 0; i < questions.size(); i++) {
             ret.add(new QuestionViewResponse(questions.get(i).getId(), questions.get(i).getTitle(), questions.get(i).getContent(), questions.get(i).getTag(), questions.get(i).getField(), questions.get(i).getPostTime(), questions.get(i).getHits(), questions.get(i).getAnswers().size()));
+        }
+        return ret;
+    }
+
+    @Transactional
+    public List<QuestionViewResponse> searchContent(String keyword) {
+        List<QuestionViewResponse> ret = new ArrayList<>();
+        List<Question> questions = questionRepository.findByContentContaining(keyword);
+        for (int i = 0; i < questions.size(); i++) {
+            ret.add(new QuestionViewResponse(questions.get(i).getId(), questions.get(i).getTitle(), questions.get(i).getContent(), questions.get(i).getTag(), questions.get(i).getField(), questions.get(i).getPostTime(), questions.get(i).getHits(), questions.get(i).getAnswers().size()));
+        }
+        return ret;
+    }
+
+    @Transactional
+    public List<QuestionViewResponse> searchTitleAndContent(String keyword) {
+        List<QuestionViewResponse> ret = new ArrayList<>();
+        List<Question> titleQuestions = questionRepository.findByTitleContaining(keyword);
+        List<Question> contentQuestions = questionRepository.findByContentContaining(keyword);
+        for (int i = 0; i < titleQuestions.size(); i++) {
+            for (int j = 0; j < contentQuestions.size(); j++) {
+                if (titleQuestions.get(i).equals(contentQuestions.get(j))) {
+                    ret.add(new QuestionViewResponse(titleQuestions.get(i).getId(), titleQuestions.get(i).getTitle(), titleQuestions.get(i).getContent(), titleQuestions.get(i).getTag(), titleQuestions.get(i).getField(), titleQuestions.get(i).getPostTime(), titleQuestions.get(i).getHits(), titleQuestions.get(i).getAnswers().size()));
+                    break;
+                }
+            }
         }
         return ret;
     }
