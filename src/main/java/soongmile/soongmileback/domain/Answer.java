@@ -39,7 +39,7 @@ public class Answer {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "question_id")
-    private Question question;
+    private soongmile.soongmileback.domain.Question question;
 
     // 작성자
     @ManyToOne(fetch = LAZY)
@@ -57,7 +57,7 @@ public class Answer {
     private Integer likes;
 
 
-    public static Answer create(AnswerCreateRequest request, Question question, Member member) {
+    public static Answer create(AnswerCreateRequest request, soongmile.soongmileback.domain.Question question, Member member) {
         return Answer.builder()
                 .content(request.getContent())
                 .postTime(LocalDateTime.now())
