@@ -12,9 +12,9 @@ import java.util.TimeZone;
 public class SoongmilebackApplication {
 
 	@PostConstruct
-	void started() {
+	public void started() {
 		// timezone UTC 셋팅
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 
 	public static void main(String[] args) {
